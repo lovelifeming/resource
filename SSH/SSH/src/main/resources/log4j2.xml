@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%-5p] %d %c - %m%n"/>
+        </Console>
+        <File name="File" fileName="dist/my.log">
+            <PatternLayout pattern="%m%n"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="mh.sample2.Log4jTest2" level="INFO">
+            <AppenderRef ref="File"/>
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

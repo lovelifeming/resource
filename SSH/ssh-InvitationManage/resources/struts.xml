@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.action.excludePattern" value="/static/.*?" />
+	
+	<package name="invitation" extends="struts-default,json-default">
+		<action name="search" class="invitationAction" method="search">
+			<result name="success" type="json">
+				<param name="root">invitations</param>
+			</result>
+		</action>
+		<action name="viewReply" class="replyAction" method="viewReply">
+			<result name="success">replyDetail.jsp</result>
+		</action>
+		<action name="delete" class="invitationAction" method="delete">
+			<result name="success" type="json">
+				<param name="root">deleteResult</param>
+			</result>
+		</action>
+		<action name="gotoReply" class="replyAction" method="gotoReply">
+			<result name="success">addReply.jsp</result>
+		</action>
+		<action name="addReply" class="replyAction" method="addReply">
+			<result name="success" type="json">
+				<param name="root">addReplyResult</param>
+			</result>
+		</action>
+	</package>
+</struts>

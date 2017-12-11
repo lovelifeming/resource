@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.zsm.ssh.entity.User" table="user">
+        <!-- 卡号 -->
+        <id name="id" column="id">
+            <generator class="native"></generator>
+        </id>
+        <!-- 姓名 -->
+        <property name="username" column="username" type="java.lang.String"></property>
+        <!-- 密码 -->
+        <property name="password" column="password" type="java.lang.String"></property>
+        <!-- 角色 -->
+        <property name="role" column="role" type="java.lang.String"></property>
+        <!-- 状态 -->
+        <property name="status" column="status" type="java.lang.Integer"></property>
+        <!-- 邮件 -->
+        <property name="email" column="email" type="java.lang.String"></property>
+        <!-- 邮件 -->
+        <property name="regtime" column="regtime" type="java.util.Date"></property>
+        <!-- 邮件 -->
+        <property name="regip" column="regip" type="java.lang.String"></property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+       default-autowire="byName" default-lazy-init="true">
+    <!--自动扫描（实体类）注解包：实体类位置为：com.spring.mvc.entities.User,不能写成：com.spring.mvc.entities,而要写成：com.spring.mvc,packagesToScan要比实际上前一层-->
+    <!--采用注解的方式注入action，service，dao-->
+    <context:component-scan base-package="com.zsm.ssh.action"/>
+    <context:component-scan base-package="com.zsm.ssh.service"/>
+    <context:component-scan base-package="com.zsm.ssh.dao"/>
+    <!-- 开启SpringMVC注解模式 -->
+    <mvc:annotation-driven/>
+    <!-- location值为参数配置文件的位置 -->
+    <context:property-placeholder location="classpath:properties/db-config.properties"/>
+
+    <!-- 属性配置文件 -->
+    <!--<bean id="propertyConfigeurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:properties/db-config.properties</value>
+        </property>
+    </bean>-->
+    <!-- 数据库配置 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+            <value>${jdbc.driver}</value>
+        </property>
+        <property name="url">
+            <value>${jdbc.url}</value>
+        </property>
+        <property name="username">
+            <value>${jdbc.username}</value>
+        </property>
+        <property name="password">
+            <value>${jdbc.password}</value>
+        </property>
+    </bean>
+
+    <!--  sessionFactory配置   -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+            </props>
+        </property>
+        <property name="mappingDirectoryLocations">
+            <list>
+                <value>classpath:hibernate-mapper</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--spring对hibernate的事务管理  -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <aop:config>
+        <aop:pointcut expression="execution(* com.zsm.ssh.service..*(..))" id="serviceMethod"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
+    </aop:config>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--默认：
+                isolation:DEFAULT
+                propagation:REQUIRED
+                timeout:-1 事物超时时间由底层事物系统决定
+                read-only:false
+                rollback-for:所有允许异常回滚
+                no-rollback-for:所有检查异常不回滚 -->
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="do*"/>
+        </tx:attributes>
+    </tx:advice>
+</beans>

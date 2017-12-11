@@ -1,0 +1,23 @@
+.title, .search-box{
+	text-align:center;
+}
+
+.search-box{
+	margin-bottom: 5px;
+}
+
+a{
+	margin-right:5px;
+}
+
+table>thead{
+	background:#1dc7b2;
+}
+
+.pageBox{
+	display : none;
+}
+
+.active{
+	display : block;
+}
