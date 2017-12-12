@@ -2,15 +2,9 @@ package com.zsm.ssh.dao.impl;
 
 import com.zsm.ssh.dao.UserDao;
 import com.zsm.ssh.entity.User;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-import org.springframework.orm.hibernate5.HibernateCallback;
-import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
