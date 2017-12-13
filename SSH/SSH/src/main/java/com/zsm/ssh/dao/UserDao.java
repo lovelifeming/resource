@@ -14,4 +14,5 @@ import java.util.List;
 public interface UserDao
 {
     List<User> findAllUser();
+    User loginCheck(String username,String pwd);
 }

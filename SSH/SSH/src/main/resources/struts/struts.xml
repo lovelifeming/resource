@@ -22,7 +22,7 @@
       class="com.zsm.ssh.action.UserAction" ** new com.zsm.ssh.action.UserAction()
       设计思想：关心了具体的实现类必须改为不要关注那个实现类 加入spring后，struts的action节点的class属性意义发生变化，
       直接引用spring帮忙创建的实例  -->
-        <action name="execute" class="myUserAction">
+        <action name="execute" class="UserAction">
             <!-- 跳转是forward/WEB-INF/是防止jsp不经过action就可以访问-->
             <!-- result接收返回的字符串，然后做对应的事情 -->
             <!-- 跳转是forward/WEB-INF/是防止jsp不经过action就可以访问-->
