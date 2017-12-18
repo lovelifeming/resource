@@ -2,7 +2,6 @@
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
-
 <hibernate-configuration>
     <session-factory>
         <!-- 数据库连接配置 -->
@@ -12,19 +11,14 @@
         <property name="connection.password">123456</property>
         <!-- 每个数据库都有1个，针对特定的关系型数据库生成优化的SQL -->
         <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
-
         <!-- 设置默认的数据库连接池 -->
         <property name="connection.pool_size">5</property>
-
         <!-- 显示SQL -->
         <property name="show_sql">true</property>
-
         <!-- 格式化SQL -->
         <property name="format_sql">true</property>
-
         <!-- 根据schema更新数据表的工具 -->
         <property name="hbm2ddl.auto">update</property>
-
         <!-- 开启二级缓存 -->
         <property name="cache.use_second_level_cache">true</property>
         <!-- 开启查询二级缓存 -->
@@ -33,14 +27,13 @@
         <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory
         </property>
         <!-- 二级缓存 ehcache的配置文件位置 -->
-        <property name="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</property>
-
+        <property name="hibernate.cache.provider_configuration_file_resource_path">struts/ehcache.xm</property>
         <!-- 数据表映射配置文件 -->
         <mapping resource="hibernate-mapper/User.hbm.xml"/>
-
+        <!-- 需要缓存的类  read-only 无需修改，那么就可以对其进行只读 缓存;read-write需要更新数据，那么使用读/写缓存 比较合适，
+        前提：数据库不可以为serializable transaction isolation level（序列化事务隔离级别）；nonstrice-read-write 只偶尔需要更新数据-->
         <!-- 需要缓存的类 -->
-        <class-cache usage="read-only" class="com.zsm.ssh.entity.User"/>
-
+        <class-cache usage="read-only" class="com.zsm.ssh.model.User"/>
     </session-factory>
 </hibernate-configuration>
 

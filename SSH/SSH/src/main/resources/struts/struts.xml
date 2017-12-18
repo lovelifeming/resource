@@ -8,30 +8,34 @@
     <!-- 告知Struts2运行时使用Spring来创建对象 -->
     <constant name="struts.objectFactory" value="spring"/>
 
-    <constant name="struts.convention.package.locators" value="controller"/>
+    <!--<constant name="struts.convention.package.locators" value="controller"/>-->
     <!-- 自动扫描action包 -->
     <!-- 注解需要的jar包：struts2-convention-plugin -->
-    <constant name="struts.convention.default.parent.package" value="default"/>
-    <constant name="struts.convention.package.locators" value="action"/>
-    <constant name="struts.convention.classes.reload" value="true"/>
+    <!--<constant name="struts.convention.default.parent.package" value="default"/>-->
+    <!--<constant name="struts.convention.package.locators.basePackage" value="com.zsm.ssh.action" />-->
+    <!--<constant name="struts.convention.package.locators" value="action"/>-->
+    <!--<constant name="struts.conventresultJsonsult.path" value="/WEB-INF/jsp/"/>-->
+    <!--<constant name="struts.convention.classes.reload" value="true"/>-->
+    <constant name="struts.i18n.encoding" value="utf-8" />
+    <!--<constant name="struts.enable.DynamicMethodInvocation" value="true"/>-->
 
-    <!-- 第1步：先定义一个包 -->
-    <package name="default" namespace="/" extends="struts-default,json-default">
-        <!-- 第2步：定义一个action，配置跳转信息 name 类似于Servlet @WebServlet("/IndexServlet")
+    <!-- 第1步：先定义一个包 namespace="/login"用于区别不同Action，需要添加到url中 采用注解不需配置-->
+    <!--<package name="default" extends="struts-default">
+        &lt;!&ndash; 第2步：定义一个action，配置跳转信息 name 类似于Servlet @WebServlet("/IndexServlet")
       http://xxxx/xxx/Index.action http://xxxx/xxx/Index class 对应于自己写的Action类 当不写method属性时，默认调用的是execute
       class="com.zsm.ssh.action.UserAction" ** new com.zsm.ssh.action.UserAction()
       设计思想：关心了具体的实现类必须改为不要关注那个实现类 加入spring后，struts的action节点的class属性意义发生变化，
-      直接引用spring帮忙创建的实例  -->
-        <action name="execute" class="UserAction">
-            <!-- 跳转是forward/WEB-INF/是防止jsp不经过action就可以访问-->
-            <!-- result接收返回的字符串，然后做对应的事情 -->
-            <!-- 跳转是forward/WEB-INF/是防止jsp不经过action就可以访问-->
-            <!-- result接收返回的字符串，然后做对应的事情 -->
-            <result name="index" type="json">/index.jsp</result>
-            <result name="success" type="json">success.jsp</result>
-            <result name="error">error.jsp</result>
+      直接引用spring帮忙创建的实例  &ndash;&gt;
+        <action name="login" class="com.zsm.ssh.action.UserAction">
+            &lt;!&ndash; 跳转是forward/WEB-INF/是防止jsp不经过action就可以访问&ndash;&gt;
+            &lt;!&ndash; result接收返回的字符串，然后做对应的事情 &ndash;&gt;
+            &lt;!&ndash; 跳转是forward/WEB-INF/是防止jsp不经过action就可以访问&ndash;&gt;
+            &lt;!&ndash; result接收返回的字符串，然后做对应的事情 &ndash;&gt;
+         resultJsonsult name="index" type="json">/index.jresultJsonsult>
+         resultJsonsult name="success" type="json">/success.jresultJsonsult>
+         resultJsonsult name="error">/error.jresultJsonsult>
         </action>
-    </package>
+    </package>-->
 
     <!-- 所有匹配*.action的请求都由struts2处理 -->
     <constant name="struts.action.extension" value="action"/>
@@ -55,6 +59,5 @@
     <constant name="struts.tag.altSyntax" value="true"/>
     <!-- 对于WebLogic,Orion,OC4J此属性应该设置成true -->
     <constant name="struts.dispatcher.parametersWorkaround" value="false"/>
-
-    <package name="basePackage" extends="struts-default" />
+    <package name="basePackage" extends="struts-default"/>
 </struts>

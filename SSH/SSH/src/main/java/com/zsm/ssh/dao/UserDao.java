@@ -1,6 +1,6 @@
 package com.zsm.ssh.dao;
 
-import com.zsm.ssh.entity.User;
+import com.zsm.ssh.model.User;
 
 import java.util.List;
 
@@ -14,5 +14,20 @@ import java.util.List;
 public interface UserDao
 {
     List<User> findAllUser();
-    User loginCheck(String username,String pwd);
+
+    int saveEntity(User user);
+
+    void saveOrUpdateEntity(User user);
+
+    void updateEntity(User user);
+
+    User getByName(String name);
+
+    User getByNo(String no);
+
+    void deleteUserById(Integer id);
+
+    void deleteUserByNo(String no);
+
+    void deleteUserByEntity(User user);
 }

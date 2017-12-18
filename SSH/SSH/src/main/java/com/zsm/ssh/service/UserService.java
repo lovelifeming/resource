@@ -1,6 +1,6 @@
 package com.zsm.ssh.service;
 
-import com.zsm.ssh.entity.User;
+import com.zsm.ssh.model.User;
 
 import java.util.List;
 
@@ -13,5 +13,21 @@ import java.util.List;
  */
 public interface UserService
 {
-    List<User> getAllUser();
+    List<User> findAllUser();
+
+    int saveEntity(User user);
+
+    boolean saveOrUpdateEntity(User user);
+
+    boolean updateEntity(User user);
+
+    User getByName(String name);
+
+    User getByNo(String no);
+
+    boolean deleteUserById(Integer id);
+
+    boolean deleteUserByNo(String no);
+
+    boolean deleteUserByEntity(User user);
 }

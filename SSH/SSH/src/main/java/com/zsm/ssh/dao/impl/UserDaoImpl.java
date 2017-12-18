@@ -1,13 +1,15 @@
 package com.zsm.ssh.dao.impl;
 
 import com.zsm.ssh.dao.UserDao;
-import com.zsm.ssh.entity.User;
+import com.zsm.ssh.model.User;
+import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,56 +23,96 @@ import java.util.List;
 @Repository("userDao")
 public class UserDaoImpl extends HibernateDaoSupport implements UserDao
 {
+    //这里的属性名一定要和配置中的属性名一致
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<User> findAllUser()
     {
-        Session session = getSessionFactory().openSession();
-        String sql = "select id,username,password,role,status,email,regtime,regip from user";
-        Query query = getSessionFactory().openSession().createQuery(sql);
-        //将所有的数据查询出来并放到List集合里
-        List<User> list = query.getResultList();
+        Session session = sessionFactory.openSession();
+        //将所有的数据查询出来并放到List集合里 User是表对应的实例名称
+        List<User> list = session.createQuery("from User").list();
         session.close();
-
-//        ArrayList<User> users = new ArrayList<>();
-//        User user = new User();
-//        user.setId(1);
-//        user.setUsername("testName");
-//        user.setPassword("daaghjk");
-//        user.setRole("2");
-//        user.setRegtime(new Date());
-//        users.add(user);
         return list;
     }
 
     @Override
-    public User loginCheck(String username, String pwd)
+    @Transactional(propagation = Propagation.REQUIRED)
+    public int saveEntity(User user)
     {
-        //得到此类提供的模板实现增删改查
-        HibernateTemplate ht = this.getHibernateTemplate();
-        //得到一个集合
-        List<User> list = (List<User>)ht.find("from user where name=? and password=? ", username, pwd);
-
-        //使用三元运算符，防止list.get(0)时报空指针。
-        return list.size() > 0 ? list.get(0) : null;
+        Session session = sessionFactory.getCurrentSession();
+        //返回插入数据id
+        Object id = session.save(user);
+        return Integer.valueOf(id.toString());
     }
 
-    public boolean Register(User user)
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveOrUpdateEntity(User user)
     {
-        Session session = getSessionFactory().openSession();
-        try
-        {
-            session.save(user);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-            return false;
-        }
-        finally
-        {
-            session.close();
-        }
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(user);
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateEntity(User user)
+    {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(user);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public User getByName(String name)
+    {
+        Session session = sessionFactory.getCurrentSession();
+        //根据id查询,结果返回 User.class
+        User user = (User)session.get(User.class, 2);
+        //将所有的数据查询出来并放到List集合里 User是表对应的实例名称
+        List users = session.createQuery("from User where user_name='" + name + "'").list();
+        return (User)users.get(0);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public User getByNo(String no)
+    {
+        Session session = sessionFactory.getCurrentSession();
+        List users = session.createQuery("from User where user_no='" + no + "'").list();
+        return (User)users.get(0);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteUserById(Integer id)
+    {
+        Session session = sessionFactory.getCurrentSession();
+        String sql = "delete from User where id=:id";
+        Query query = session.createQuery(sql);
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteUserByNo(String no)
+    {
+        Session session = sessionFactory.getCurrentSession();
+        String sql = "delete from User where user_no=:no";
+        Query query = session.createQuery(sql);
+        query.setParameter("no", no);
+        query.executeUpdate();
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteUserByEntity(User user)
+    {
+        Session session = sessionFactory.getCurrentSession();
+        //传入实例对象，比较id删除对应行，，没有id匹配就不删除
+        session.delete(User.class.getName(), user);
+    }
 }

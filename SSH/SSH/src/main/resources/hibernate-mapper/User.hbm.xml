@@ -2,26 +2,71 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-
-<hibernate-mapping>
-    <class name="com.zsm.ssh.entity.User" table="user">
-        <!-- 卡号 -->
-        <id name="id" column="id">
-            <generator class="native"></generator>
+<hibernate-mapping package="com.zsm.ssh.model">
+    <class name="com.zsm.ssh.model.User" table="student">
+        <id name="id" type="java.lang.Integer">
+            <column name="id"/>
+            <generator class="native"/>
         </id>
-        <!-- 姓名 -->
-        <property name="username" column="username" type="java.lang.String"></property>
-        <!-- 密码 -->
-        <property name="password" column="password" type="java.lang.String"></property>
-        <!-- 角色 -->
-        <property name="role" column="role" type="java.lang.String"></property>
-        <!-- 状态 -->
-        <property name="status" column="status" type="java.lang.Integer"></property>
-        <!-- 邮件 -->
-        <property name="email" column="email" type="java.lang.String"></property>
-        <!-- 邮件 -->
-        <property name="regtime" column="regtime" type="java.util.Date"></property>
-        <!-- 邮件 -->
-        <property name="regip" column="regip" type="java.lang.String"></property>
+        <property name="user_no" type="java.lang.String">
+            <column name="user_no">
+                <comment>学号</comment>
+            </column>
+        </property>
+        <property name="user_name" type="java.lang.String">
+            <column name="user_name">
+                <comment>名字</comment>
+            </column>
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="password">
+                <comment>密码</comment>
+            </column>
+        </property>
+        <property name="user_sex" type="java.lang.String">
+            <column name="user_sex">
+                <comment>性别</comment>
+            </column>
+        </property>
+        <property name="user_birthday" type="java.util.Date">
+            <column name="user_birthday">
+                <comment>生日</comment>
+            </column>
+        </property>
+        <property name="user_class" type="java.lang.String">
+            <column name="user_class">
+                <comment>班级</comment>
+            </column>
+        </property>
+        <property name="createtime" type="java.util.Date">
+            <column name="createtime">
+                <comment>创建时间</comment>
+            </column>
+        </property>
+        <property name="updatetime" type="java.util.Date">
+            <column name="updatetime">
+                <comment>更新时间</comment>
+            </column>
+        </property>
+
+        <!--&lt;!&ndash; 编号 &ndash;&gt;-->
+        <!--<id name="id" column="id" type="int">-->
+        <!--<generator class="native"></generator>-->
+        <!--</id>-->
+        <!--<property name="user_no" column="user_no" type="java.lang.String" not-null="true"></property>-->
+        <!--&lt;!&ndash; 姓名 &ndash;&gt;-->
+        <!--<property name="user_name" column="user_name" type="java.lang.String"></property>-->
+        <!--&lt;!&ndash; 密码 &ndash;&gt;-->
+        <!--<property name="password" column="password" type="java.lang.String"></property>-->
+        <!--&lt;!&ndash; 性别 &ndash;&gt;-->
+        <!--<property name="user_sex" column="user_sex" type="java.lang.String"></property>-->
+        <!--&lt;!&ndash; 生日 &ndash;&gt;-->
+        <!--<property name="user_birthday" column="user_birthday" type="java.util.Date"></property>-->
+        <!--&lt;!&ndash; 班级 &ndash;&gt;-->
+        <!--<property name="user_class" column="user_class" type="java.lang.String"></property>-->
+        <!--&lt;!&ndash; 创建时间 &ndash;&gt;-->
+        <!--<property name="createtime" column="createtime" type="java.util.Date"></property>-->
+        <!--&lt;!&ndash; 更新时间 &ndash;&gt;-->
+        <!--<property name="updatetime" column="updatetime" type="java.util.Date"></property>-->
     </class>
 </hibernate-mapping>
