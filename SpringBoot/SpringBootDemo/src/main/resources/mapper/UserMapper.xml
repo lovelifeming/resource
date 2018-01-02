@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zsm.sb.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.zsm.sb.model.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="user_sex" jdbcType="VARCHAR" property="userSex" />
+    <result column="user_birthday" jdbcType="TIMESTAMP" property="userBirthday" />
+    <result column="user_class" jdbcType="VARCHAR" property="userClass" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+    <resultMap id="baseResultMap" type="com.zsm.sb.model.User">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="user_no" jdbcType="VARCHAR" property="user_no" />
+        <result column="user_name" jdbcType="VARCHAR" property="user_name" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+    </resultMap>
+
+    <sql id="baseColumnList">
+        id, user_no, user_name,password
+    </sql>
+
+    <select id="queryUserList" parameterType="java.util.HashMap" resultMap="baseResultMap">
+        select
+        <include refid="baseColumnList" />
+        from student
+        <where>
+            1 = 1
+            <if test="user_no!= null and user_no !=''">
+                AND user_no like CONCAT(CONCAT('%',#{user_no,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="user_name != null and user_name !=''">
+                AND user_name like  CONCAT(CONCAT('%',#{user_name,jdbcType=VARCHAR}),'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="queryUserById" parameterType="java.lang.Long" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumnList" />
+        FROM student
+        WHERE id = #{id}
+    </select>
+
+    <insert id="addUser" parameterType="com.zsm.sb.model.User">
+        INSERT INTO student (user_no, user_name,url) VALUES (#{user_no}, #{user_name}, #{url})
+    </insert>
+
+    <update id="updateUser" parameterType="com.zsm.sb.model.User">
+        UPDATE student SET user_no = #{user_no},user_name = #{user_name},url = #{url} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteUserByIds" parameterType="java.lang.String">
+        DELETE FROM student WHERE id in
+        <foreach close=")" collection="array" item="idItem" open="(" separator=",">
+            #{idItem}
+        </foreach>
+    </delete>
+</mapper>

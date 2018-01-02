@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>logback</contextName>
+    <property name="log.path" value="/logfile/log"/>
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+             <level>ERROR</level>
+         </filter>-->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--输出到文件-->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--如果想把日志直接放到当前项目下，把${log.path}/去掉即可-->
+            <fileNamePattern>${log.path}/logback.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--只保留最近30天的日志，以防止日志填满整个磁盘空间-->
+            <maxHistory>30</maxHistory>
+            <!--指定日志文件的上限大小-->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL和OFF，不能设置为INHERITED或者同义词NULL。-->
+    <!--默认是DEBUG。可以包含零个或多个元素，标识这个appender将会添加到这个logger-->
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
+    </root>
+
+    <!-- logback为java中的包 -->
+    <logger name="com.zsm.sb.controller"/>
+    <!--logback.LogbackDemo：类的全路径 -->
+    <!--如果把additivity=”false”改成”true”，就会打印两次，因为打印信息向上级传递，logger本身打印一次，root接到后又打印一次-->
+    <logger name="com.zsm.sb.controller.SimpleController" level="WARN" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="com.zsm.sb.dao" level="DEBUG" additivity="false">
+        <appender-ref ref="console" />
+    </logger>
+</configuration>
