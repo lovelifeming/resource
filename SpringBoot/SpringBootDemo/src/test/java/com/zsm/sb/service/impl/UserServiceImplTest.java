@@ -1,6 +1,8 @@
 package com.zsm.sb.service.impl;
 
 import com.zsm.sb.dao.UserDao;
+import com.zsm.sb.util.AbstractSpringTest;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +21,16 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserServiceImplTest
+public class UserServiceImplTest extends AbstractSpringTest
 {
     @Autowired
     private UserDao userDao;
 
+    @Ignore
     @Test
     public void testAssertThat()
     {
         //相等
-        assertThat(userDao.queryUserById(108L).getUserName(),is("曾华"));
+        assertThat(userDao.queryUserById(108L).getUserName(), is("曾华"));
     }
 }

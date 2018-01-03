@@ -1,11 +1,15 @@
 package com.zsm.sb.controller;
 
 import com.zsm.sb.model.User;
+import com.zsm.sb.util.AbstractSpringTest;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
@@ -19,7 +23,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.apache.naming.SelectorContext.prefix;
@@ -54,8 +60,9 @@ import static org.junit.Assert.assertThat;
  * @Modified By:
  */
 @RunWith(SpringRunner.class)
+@EnableAutoConfiguration
 @SpringBootTest
-public class SimpleControllerTest
+public class SimpleControllerTest extends AbstractSpringTest
 {
     @Autowired
     private WebApplicationContext wac;
@@ -125,8 +132,6 @@ public class SimpleControllerTest
         String testValue = "user";
         String expectValue = "user";
         User user = new User();
-        Map map = new HashMap<Object,Object>();
-        map.put("key","value");
         //字符相关匹配符
         /**equalTo匹配符断言被测的testedValue等于expectedValue，
          * equalTo可以断言数值之间，字符串之间和对象之间是否相等，相当于Object的equals方法
@@ -175,15 +180,24 @@ public class SimpleControllerTest
         assertThat(12.0, greaterThanOrEqualTo(16.0));
         /** lessThanOrEqualTo匹配符断言被测的testedNumber小于等于16.0*/
         assertThat(12.0, lessThanOrEqualTo(16.0));
-        //集合相关匹配符
-        /**hasEntry匹配符断言被测的Map对象mapObject含有一个键值为"key"对应元素值为"value"的Entry项*/
-        assertThat(map, hasEntry("key", "value"));
-        /**hasItem匹配符表明被测的迭代对象iterableObject含有元素element项则测试通过*/
-        assertThat(map.entrySet(), hasItem(expectValue));
-        /** hasKey匹配符断言被测的Map对象mapObject含有键值“key”*/
-        assertThat(map, hasKey("key"));
-        /** hasValue匹配符断言被测的Map对象mapObject含有元素值value*/
-        assertThat(map,hasValue(expectValue));
+
+        /**集合匹配**/
+        User test1 = new User();
+        User test2 = new User();
+        List<User> user1 = new ArrayList<User>();
+        user1.add(test1);
+        user1.add(test2);
+        Map<String, User> userMap = new HashMap<String, User>();
+        userMap.put(test1.getUserName(), test1);
+        userMap.put(test2.getUserName(), test2);
+        //测试集合中是否含有指定元素
+        assertThat(user1, hasItem(test1));
+        //测试map中是否还有指定键值对
+        assertThat(userMap, hasEntry(test1.getUserName(), test1));
+        //测试map中是否还有指定键
+        assertThat(userMap, hasKey(test2.getUserName()));
+        //测试map中是否还有指定值
+        assertThat(userMap, hasValue(test2));
     }
 
 }
