@@ -26,14 +26,14 @@ import java.util.Map;
  */
 public class HBaseFilter
 {
-    private static Configuration cfg = null;
+    private static Configuration conf = null;
 
     static
     {
         // 初始化配置
-        cfg = HBaseConfiguration.create();
-        cfg.set("hbase.zookeeper.quorum", "localhost");
-        cfg.set("hbase.zookeeper.property.clientPort", "2181");
+        conf = HBaseConfiguration.create();
+        conf.set("hbase.zookeeper.quorum", "localhost");
+        conf.set("hbase.zookeeper.property.clientPort", "2181");
     }
 
     /**
@@ -301,7 +301,7 @@ public class HBaseFilter
         throws IOException, JSONException
     {
         // 建立一个数据库的连接
-        Connection conn = ConnectionFactory.createConnection(cfg);
+        Connection conn = ConnectionFactory.createConnection(conf);
         // 获取表
         HTable table = (HTable)conn.getTable(TableName.valueOf(tableName));
         // 创建一个扫描对象

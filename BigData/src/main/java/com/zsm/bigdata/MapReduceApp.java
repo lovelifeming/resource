@@ -15,6 +15,8 @@ import java.io.IOException;
 
 
 /**
+ * MapReduce 基本操作实例
+ *
  * @Author: zengsm.
  * @Description:
  * @Date:Created in 2018/2/1 15:53.
@@ -22,13 +24,28 @@ import java.io.IOException;
  */
 public class MapReduceApp
 {
-    public static void mapReduce(String[] args)
+    /**
+     * MapReduce 基本操作
+     * @param args  输入路径，输出路径 job名称
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InterruptedException
+     */
+    public static boolean mapReduce(String[] args)
         throws IOException, ClassNotFoundException, InterruptedException
     {
+        if (args.length != 3)
+        {
+            return false;
+        }
+        String inputPath = args[0];
+        String outPath = args[1];
+        String jobName = args[2];
         //创建Configuration
         Configuration configuration = new Configuration();
         //准备清理环境
-        Path outputPath = new Path(args[1]);
+        Path outputPath = new Path(outPath);
         FileSystem fs = FileSystem.get(configuration);
         if (fs.exists(outputPath))
         {
@@ -36,11 +53,11 @@ public class MapReduceApp
         }
 
         //创建job,Max temperature是job的名称
-        Job job = Job.getInstance(configuration, "maxTemperature");
+        Job job = Job.getInstance(configuration, jobName);
         //设置job处理类，就是主类
         job.setJarByClass(MapReduceApp.class);
         //处理数据，就必须有一个输入路径，第一个参数job的名称，第二个参数是Path
-        FileInputFormat.setInputPaths(job, new Path(args[0]));
+        FileInputFormat.setInputPaths(job, new Path(inputPath));
 
         //设置map相关的
         job.setMapperClass(MyMapper.class); //设置MyMapper.class
@@ -53,24 +70,26 @@ public class MapReduceApp
         job.setOutputValueClass(LongWritable.class);    //设置reduce输出的value的类型
 
         //设置任务处理的输出路径
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-        boolean result = job.waitForCompletion(true);   //把任务提交
-        System.out.println(result ? 0 : 1);
+        FileOutputFormat.setOutputPath(job, new Path(outPath));
+        //执行MR任务
+        boolean result = job.waitForCompletion(true);
+        return result;
     }
 
     public static class MyMapper extends Mapper<LongWritable, Text, Text, LongWritable>
     {
+        //1,23,25,28,249,248,2017-01-01 00:00:00;
         @Override
         protected void map(LongWritable key, Text value, Context context)
             throws IOException, InterruptedException
         {
             String line = value.toString();
-            String[] words = line.split(";");
-            for (String word : words)
+            String[] elements = line.split(";");
+            for (String element : elements)
             {
-                if (!word.isEmpty())
+                if (!element.isEmpty())
                 {
-                    String[] strings = word.split(",");
+                    String[] strings = element.split(",");
                     context.write(new Text(strings[0]), new LongWritable(Integer.valueOf(strings[2])));
                 }
             }

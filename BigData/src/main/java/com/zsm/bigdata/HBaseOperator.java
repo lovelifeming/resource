@@ -1,6 +1,5 @@
 package com.zsm.bigdata;
 
-import com.sun.tools.corba.se.idl.StringGen;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
@@ -30,13 +29,13 @@ import java.util.Map;
  */
 public class HBaseOperator
 {
-    private static Configuration cfg = null;
+    private static Configuration conf = null;
 
     static
     {
-        cfg = HBaseConfiguration.create();
-        cfg.set("hbase.zookeeper.quorum", "localhost");
-        cfg.set("hbase.zookeeper.property.clientPort", "2181");
+        conf = HBaseConfiguration.create();
+        conf.set("hbase.zookeeper.quorum", "localhost");
+        conf.set("hbase.zookeeper.property.clientPort", "2181");
     }
 
     /**
@@ -52,7 +51,7 @@ public class HBaseOperator
         try
         {
             // 建立一个数据库的连接
-            conn = ConnectionFactory.createConnection(cfg);
+            conn = ConnectionFactory.createConnection(conf);
             // 创建一个数据库管理员
             HBaseAdmin admin = (HBaseAdmin)conn.getAdmin();
             if (admin.tableExists(tableName))
@@ -101,7 +100,7 @@ public class HBaseOperator
         try
         {
             // 建立一个数据库的连接
-            conn = ConnectionFactory.createConnection(cfg);
+            conn = ConnectionFactory.createConnection(conf);
             // 获取表
             table = (HTable)conn.getTable(TableName.valueOf(tableName));
             // 通过rowkey创建一个put对象
@@ -137,7 +136,7 @@ public class HBaseOperator
         JSONObject json = new JSONObject();
         try
         {
-            conn = ConnectionFactory.createConnection(cfg);
+            conn = ConnectionFactory.createConnection(conf);
             table = (HTable)conn.getTable(TableName.valueOf(tableName));
             // 通过rowkey创建一个get对象
             Get get = new Get(Bytes.toBytes(rowKey));
@@ -187,7 +186,7 @@ public class HBaseOperator
         JSONObject json = new JSONObject();
         try
         {
-            conn = ConnectionFactory.createConnection(cfg);
+            conn = ConnectionFactory.createConnection(conf);
             table = (HTable)conn.getTable(TableName.valueOf(tableName));
             Scan scan = new Scan();
             // 扫描全表输出结果
@@ -251,7 +250,7 @@ public class HBaseOperator
         HTable table = null;
         try
         {
-            conn = ConnectionFactory.createConnection(cfg);
+            conn = ConnectionFactory.createConnection(conf);
             table = (HTable)conn.getTable(TableName.valueOf(tableName));
             // 删除多条数据
             List<Delete> list = new ArrayList<Delete>();
@@ -287,7 +286,7 @@ public class HBaseOperator
         HTable table = null;
         try
         {
-            conn = ConnectionFactory.createConnection(cfg);
+            conn = ConnectionFactory.createConnection(conf);
             table = (HTable)conn.getTable(TableName.valueOf(tableName));
             // 创建一个数据库管理员
             HBaseAdmin admin = (HBaseAdmin)conn.getAdmin();
@@ -317,7 +316,7 @@ public class HBaseOperator
         Connection conn = null;
         try
         {
-            conn = ConnectionFactory.createConnection(cfg);
+            conn = ConnectionFactory.createConnection(conf);
             HBaseAdmin admin = (HBaseAdmin)conn.getAdmin();
             if (admin.tableExists(tableName))
             {
@@ -359,7 +358,7 @@ public class HBaseOperator
         HTable table = null;
         try
         {
-            conn = ConnectionFactory.createConnection(cfg);
+            conn = ConnectionFactory.createConnection(conf);
             table = (HTable)conn.getTable(TableName.valueOf(tableName));
             // 通过rowkey创建一个append对象
             Append append = new Append(Bytes.toBytes(rowKey));
@@ -399,7 +398,7 @@ public class HBaseOperator
         Connection conn = null;
         try
         {
-            conn = ConnectionFactory.createConnection(cfg);
+            conn = ConnectionFactory.createConnection(conf);
             HTable table = (HTable)conn.getTable(TableName.valueOf(tableName));
             // 设置需要添加的数据
             Put put = new Put(Bytes.toBytes(rowKey));
@@ -440,7 +439,7 @@ public class HBaseOperator
         HTable table = null;
         try
         {
-            conn = ConnectionFactory.createConnection(cfg);
+            conn = ConnectionFactory.createConnection(conf);
             table = (HTable)conn.getTable(TableName.valueOf(tableName));
             // 设置需要刪除的delete对象
             Delete delete = new Delete(Bytes.toBytes(rowKey));
@@ -479,7 +478,7 @@ public class HBaseOperator
         HTable table = null;
         try
         {
-            conn = ConnectionFactory.createConnection(cfg);
+            conn = ConnectionFactory.createConnection(conf);
             table = (HTable)conn.getTable(TableName.valueOf(tableName));
             long result = table.incrementColumnValue(Bytes.toBytes(rowKey), Bytes.toBytes(columnFamily),
                 Bytes.toBytes(column), amount);
