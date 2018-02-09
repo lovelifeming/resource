@@ -1,7 +1,7 @@
 package com.zsm.sb.controller;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.zsm.sb.util.MyMapper;
+import com.zsm.sb.dao.UserDao;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +21,7 @@ import javax.sql.DataSource;
  */
 @SpringBootApplication
 @EnableTransactionManagement  // 启注解事务管理，等同于xml配置方式的 <tx:annotation-driven />
-@MapperScan(basePackages = "com.zsm.sb.dao", markerInterface = MyMapper.class)
+@MapperScan(basePackages = "com.zsm.sb.dao", markerInterface = UserDao.class)
 public class Application
 {
     @Autowired

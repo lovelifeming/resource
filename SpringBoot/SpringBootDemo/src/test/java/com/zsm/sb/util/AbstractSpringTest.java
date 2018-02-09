@@ -1,7 +1,6 @@
 package com.zsm.sb.util;
 
 import com.zsm.sb.controller.Application;
-import com.zsm.sb.model.ConfigBean;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,7 +19,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @SpringBootTest(classes = Application.class)
 @ActiveProfiles("test")
 @WebAppConfiguration
-@ContextConfiguration(value={"config/application.properties"})
+@ContextConfiguration(value = {"/config/application.properties"})
 public abstract class AbstractSpringTest
 {
 
