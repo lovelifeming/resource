@@ -22,7 +22,7 @@ import java.io.IOException;
  * @Date:Created in 2018/2/1 15:53.
  * @Modified By:
  */
-public class MapReduceApp
+public class MapReduceOperator
 {
     /**
      * MapReduce 基本操作
@@ -55,7 +55,7 @@ public class MapReduceApp
         //创建job,Max temperature是job的名称
         Job job = Job.getInstance(configuration, jobName);
         //设置job处理类，就是主类
-        job.setJarByClass(MapReduceApp.class);
+        job.setJarByClass(MapReduceOperator.class);
         //处理数据，就必须有一个输入路径，第一个参数job的名称，第二个参数是Path
         FileInputFormat.setInputPaths(job, new Path(inputPath));
 
