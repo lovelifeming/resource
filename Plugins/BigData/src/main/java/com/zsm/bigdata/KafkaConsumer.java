@@ -3,9 +3,9 @@ package com.zsm.bigdata;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import scala.actors.threadpool.Arrays;
 
 import java.util.Properties;
-import java.util.regex.Pattern;
 
 
 /**
@@ -37,15 +37,16 @@ public class KafkaConsumer implements Runnable
         properties.put("auto.offset.reset", "earliest");
         properties.put("key.deserializer", StringDeserializer.class.getName());
         properties.put("value.deserializer", StringDeserializer.class.getName());
+        properties.put("zookeeper.connect", "127.0.0.1:2181,127.0.0.1:2182");
         this.consumer = new org.apache.kafka.clients.consumer.KafkaConsumer<String, String>(properties);
-//        consumer.subscribe(Pattern.compile(topicName));
         this.topicName = topicName;
+        consumer.subscribe(Arrays.asList(new String[] {topicName}));
     }
 
     @Override
     public void run()
     {
-        int messageNum = 1;
+        int messageNum = 0;
         try
         {
             outside:
@@ -61,6 +62,7 @@ public class KafkaConsumer implements Runnable
                         messageNum++;
 
                     }
+                    //默认消费100条消息
                     if (messageNum > 100)
                     {
                         break outside;

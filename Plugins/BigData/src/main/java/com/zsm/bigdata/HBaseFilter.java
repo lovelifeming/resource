@@ -1,8 +1,6 @@
 package com.zsm.bigdata;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.Cell;
-import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
@@ -12,10 +10,6 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -310,39 +304,9 @@ public class HBaseFilter
         scan.setFilter(filter);
         // 获取扫描结果
         ResultScanner results = table.getScanner(scan);
-        JSONObject json = convertResultScannerToJSONObject(results);
+        JSONObject json = HBaseOperator.convertResultScanner(results);
         results.close();
         conn.close();
-        return json;
-    }
-
-    /**
-     * 把ResultScanner转换为JSONObject
-     *
-     * @param results
-     * @return
-     * @throws JSONException
-     */
-    public static JSONObject convertResultScannerToJSONObject(ResultScanner results)
-        throws JSONException
-    {
-        int index = 0;
-        JSONObject json = new JSONObject();
-        for (Result r : results)
-        {
-            List<Map> list = new ArrayList<>();
-            for (Cell cell : r.rawCells())
-            {
-                Map temp = new HashMap<String, String>();
-                temp.put("rowkey", new String(CellUtil.cloneRow(cell)));
-                temp.put("columnfamily", new String(CellUtil.cloneFamily(cell)));
-                temp.put("columnname", new String(CellUtil.cloneQualifier(cell)));
-                temp.put("value", new String(CellUtil.cloneValue(cell)));
-                temp.put("timestamp", cell.getTimestamp());
-                list.add(temp);
-            }
-            json.put(Integer.toString(index++), list);
-        }
         return json;
     }
 }

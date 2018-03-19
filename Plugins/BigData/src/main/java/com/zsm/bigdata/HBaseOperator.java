@@ -190,23 +190,8 @@ public class HBaseOperator
             table = (HTable)conn.getTable(TableName.valueOf(tableName));
             Scan scan = new Scan();
             // 扫描全表输出结果
-            ResultScanner result = table.getScanner(scan);
-            int index = 0;
-            for (Result r : result)
-            {
-                List<Map> list = new ArrayList<>();
-                for (Cell cell : r.rawCells())
-                {
-                    Map temp = new HashMap<String, String>();
-                    temp.put("rowkey", new String(CellUtil.cloneRow(cell)));
-                    temp.put("columnfamily", new String(CellUtil.cloneFamily(cell)));
-                    temp.put("columnname", new String(CellUtil.cloneQualifier(cell)));
-                    temp.put("value", new String(CellUtil.cloneValue(cell)));
-                    temp.put("timestamp", cell.getTimestamp());
-                    list.add(temp);
-                }
-                json.put(Integer.toString(index++), list);
-            }
+            ResultScanner results = table.getScanner(scan);
+            json = convertResultScanner(results);
             return json;
         }
         catch (JSONException e)
@@ -223,6 +208,36 @@ public class HBaseOperator
         {
             Utils.closeStream(table, conn);
         }
+    }
+
+    /**
+     * 把ResultScanner转换为JSONObject
+     *
+     * @param results
+     * @return
+     * @throws JSONException
+     */
+    public static JSONObject convertResultScanner(ResultScanner results)
+        throws JSONException
+    {
+        int index = 0;
+        JSONObject json = new JSONObject();
+        for (Result r : results)
+        {
+            List<Map> list = new ArrayList<>();
+            for (Cell cell : r.rawCells())
+            {
+                Map temp = new HashMap<String, String>();
+                temp.put("rowkey", new String(CellUtil.cloneRow(cell)));
+                temp.put("columnfamily", new String(CellUtil.cloneFamily(cell)));
+                temp.put("columnname", new String(CellUtil.cloneQualifier(cell)));
+                temp.put("value", new String(CellUtil.cloneValue(cell)));
+                temp.put("timestamp", cell.getTimestamp());
+                list.add(temp);
+            }
+            json.put(Integer.toString(index++), list);
+        }
+        return json;
     }
 
     /**

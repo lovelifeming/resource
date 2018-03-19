@@ -24,7 +24,7 @@ public class KafkaProducer implements Runnable
     {
         Properties properties = new Properties();
         //配置kafka集群的broker地址，建议配置两个以上，以免其中一个失效，但不需要配全，集群会自动查找leader节点。
-        //properties.put("metadata.broker.list", "localhost:9092");
+        properties.put("metadata.broker.list", "localhost:9092");
         //bootstrap.servers： kafka服务器地址 127.0.0.1:2181
         properties.put("bootstrap.servers", "127.0.0.1:9092");
         // acks:消息的确认机制，默认值是0
@@ -32,6 +32,7 @@ public class KafkaProducer implements Runnable
         // 1是kafka会把这条消息写到本地日志文件中，但是不会等待集群中其他机器的成功响应
         // all是leader会等待所有的follower同步完成，确保消息不会丢失，除非kafka集群中所有机器挂掉。这是最强的可用性保证。
         properties.put("acks", "all");
+        properties.put("group.id", "groupA");
         // retries：配置为大于0的值的话，客户端会在消息发送失败时重新发送
         properties.put("retries", 0);
         //batch.size:当多条消息需要发送到同一个分区时，生产者会尝试合并网络请求以提高client和生产者的效率。
@@ -40,6 +41,8 @@ public class KafkaProducer implements Runnable
         properties.put("key.serializer", StringSerializer.class.getName());
         //value.deserializer:值序列化，默认org.apache.kafka.common.serialization.StringDeserializer
         properties.put("value.serializer", StringSerializer.class.getName());
+        properties.put("serializer.class", "kafka.serializer.StringEncoder");
+        properties.put("key.serializer.class", "kafka.serializer.StringEncoder");
         this.producer = new org.apache.kafka.clients.producer.KafkaProducer<String, String>(properties);
         this.topicName = topicName;
     }
@@ -47,7 +50,7 @@ public class KafkaProducer implements Runnable
     @Override
     public void run()
     {
-        int messageCount = 1;
+        int messageCount = 0;
         try
         {
             outside:
@@ -58,7 +61,8 @@ public class KafkaProducer implements Runnable
                 //发送消息Topic名称，消息键名，消息内容
                 producer.send(new ProducerRecord<String, String>(topicName, "message", messageStr));
                 messageCount++;
-                if (messageCount < 100)
+                //累计生产100条数据
+                if (messageCount > 100)
                 {
                     break outside;
                 }
