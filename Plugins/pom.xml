@@ -11,7 +11,7 @@
     <modules>
         <!--子模块-->
         <module>BigData</module>
-        <module>FastDFS</module>
+        <module>FileTransfer</module>
         <module>Kafka</module>
         <module>OSS</module>
     </modules>
