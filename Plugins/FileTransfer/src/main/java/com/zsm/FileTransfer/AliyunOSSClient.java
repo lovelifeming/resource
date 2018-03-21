@@ -1,11 +1,11 @@
 package com.zsm.FileTransfer;
 
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.common.utils.StringUtils;
 import com.aliyun.oss.model.Bucket;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectResult;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.io.Resources;
@@ -19,7 +19,7 @@ import java.util.Properties;
 
 
 /**
- * 连接OSS阿里云客户端
+ * 连接OSS阿里云客户端,bucket是在网页端手动创建的，FOLDER是bucket下面的文件夹路径
  */
 public class AliyunOSSClient
 {
@@ -69,6 +69,23 @@ public class AliyunOSSClient
         ACCESS_KEY_SECRET = pro.getProperty("OSS.ACCESS_KEY_SECRET");
         BACKET_NAME = pro.getProperty("OSS.BACKET_NAME");
         FOLDER = pro.getProperty("OSS.FOLDER");
+    }
+
+    /**
+     * @param bucketName 存储空间名
+     * @param folder     存储空间名下面的文件夹
+     * @param sourcePath 上传文件全路径
+     * @param targetPath 下载文件存储全路径
+     * @return
+     */
+    public static String ossUploadDown(String bucketName, String folder, String sourcePath, String targetPath)
+    {
+        AliyunOSSClient aliyunOSSClient = new AliyunOSSClient();
+        aliyunOSSClient.createFolder(bucketName, folder);
+        File file = new File(sourcePath);
+        String url = aliyunOSSClient.uploadObject2OSS(file, folder + "/");
+        aliyunOSSClient.downOssFile(targetPath, url);
+        return aliyunOSSClient.getUrl(file.getName());
     }
 
     public AliyunOSSClient()
@@ -155,13 +172,12 @@ public class AliyunOSSClient
      * 上传图片至OSS
      *
      * @param file   上传文件全路径
-     * @param folder
-     * @return
-     * @throws IOException
+     * @param folder 上传文件存储文件夹
+     * @return 返回OSS内部文件存储路径
      */
     public String uploadObject2OSS(File file, String folder)
     {
-        String result = null;
+        String result = "";
         // 以输入流的形式上传文件
         InputStream inputStream = null;
         try
@@ -190,7 +206,7 @@ public class AliyunOSSClient
             // 上传文件 (上传文件流的形式)
             PutObjectResult putResult = ossClient.putObject(BACKET_NAME, path, inputStream, metadata);
             // 解析结果
-            result = putResult.getETag();
+            result = path;
         }
         catch (FileNotFoundException e)
         {
@@ -206,14 +222,14 @@ public class AliyunOSSClient
     }
 
     /**
-     * 获得图片路径
+     * 根据文件名称获得url链接，浏览器直接查看链接
      *
      * @param fileUrl
      * @return
      */
     public String getImgUrl(String fileUrl)
     {
-        if (!StringUtils.isEmpty(fileUrl))
+        if (!StringUtils.isNullOrEmpty(fileUrl))
         {
             String[] split = fileUrl.split("/");
             return getUrl(FOLDER + split[split.length - 1]);
@@ -222,16 +238,16 @@ public class AliyunOSSClient
     }
 
     /**
-     * 获得url链接
+     * 根据文件名称获得url链接，浏览器直接查看链接
      *
-     * @param key
+     * @param fileName 文件名称
      * @return
      */
-    public String getUrl(String key)
+    public String getUrl(String fileName)
     {
-        // 设置URL过期时间为10年 1000*36000*24*365*10
-        Date expiration = new Date(new Date().getTime() + (1000 * 36000 * 24 * 365 * 10));
-        URL url = ossClient.generatePresignedUrl(BACKET_NAME, key, expiration);
+        // 设置URL过期时间为1年 1000*36000*24*365
+        Date expiration = new Date(new Date().getTime() + (1000 * 36000 * 24 * 365));
+        URL url = ossClient.generatePresignedUrl(BACKET_NAME, fileName, expiration);
         if (url != null)
         {
             return url.toString();
