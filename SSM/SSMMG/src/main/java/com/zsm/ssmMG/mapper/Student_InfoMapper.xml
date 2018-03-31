@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zsm.ssmMG.dao.Student_InfoMapper">
+  <resultMap id="BaseResultMap" type="com.zsm.ssmMG.model.Student_Info">
+    <result column="id" jdbcType="INTEGER" property="colId" />
+    <result column="user_no" jdbcType="VARCHAR" property="user_no" />
+    <result column="user_name" jdbcType="VARCHAR" property="user_name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="user_sex" jdbcType="VARCHAR" property="user_sex" />
+    <result column="user_birthday" jdbcType="TIMESTAMP" property="user_birthday" />
+    <result column="user_class" jdbcType="VARCHAR" property="user_class" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_no, user_name, password, user_sex, user_birthday, user_class, createtime, 
+    updatetime
+  </sql>
+  <select id="selectStudentByUserNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from student WHERE user_no=#{no}
+  </select>
+  <select id="selectByExample" parameterType="com.zsm.ssmMG.model.Student_InfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.zsm.ssmMG.model.Student_InfoExample">
+    delete from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zsm.ssmMG.model.Student_Info">
+    insert into student (id, user_no, user_name, 
+      password, user_sex, user_birthday, 
+      user_class, createtime, updatetime
+      )
+    values (#{colId,jdbcType=INTEGER}, #{user_no,jdbcType=VARCHAR}, #{user_name,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{user_sex,jdbcType=VARCHAR}, #{user_birthday,jdbcType=TIMESTAMP}, 
+      #{user_class,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zsm.ssmMG.model.Student_Info">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="colId != null">
+        id,
+      </if>
+      <if test="user_no != null">
+        user_no,
+      </if>
+      <if test="user_name != null">
+        user_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="user_sex != null">
+        user_sex,
+      </if>
+      <if test="user_birthday != null">
+        user_birthday,
+      </if>
+      <if test="user_class != null">
+        user_class,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="colId != null">
+        #{colId,jdbcType=INTEGER},
+      </if>
+      <if test="user_no != null">
+        #{user_no,jdbcType=VARCHAR},
+      </if>
+      <if test="user_name != null">
+        #{user_name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="user_sex != null">
+        #{user_sex,jdbcType=VARCHAR},
+      </if>
+      <if test="user_birthday != null">
+        #{user_birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user_class != null">
+        #{user_class,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zsm.ssmMG.model.Student_InfoExample" resultType="java.lang.Long">
+    select count(*) from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update student
+    <set>
+      <if test="record.colId != null">
+        id = #{record.colId,jdbcType=INTEGER},
+      </if>
+      <if test="record.user_no != null">
+        user_no = #{record.user_no,jdbcType=VARCHAR},
+      </if>
+      <if test="record.user_name != null">
+        user_name = #{record.user_name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.user_sex != null">
+        user_sex = #{record.user_sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.user_birthday != null">
+        user_birthday = #{record.user_birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.user_class != null">
+        user_class = #{record.user_class,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null">
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update student
+    set id = #{record.colId,jdbcType=INTEGER},
+      user_no = #{record.user_no,jdbcType=VARCHAR},
+      user_name = #{record.user_name,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      user_sex = #{record.user_sex,jdbcType=VARCHAR},
+      user_birthday = #{record.user_birthday,jdbcType=TIMESTAMP},
+      user_class = #{record.user_class,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
