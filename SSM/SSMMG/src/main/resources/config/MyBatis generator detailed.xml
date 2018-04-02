@@ -154,7 +154,8 @@
             1，schema：数据库的schema；
             2，catalog：数据库的catalog；
             3，alias：为数据表设置的别名，如果设置了alias，那么生成的所有的SELECT SQL语句中，列名会变成：alias_actualColumnName
-            4，domainObjectName：生成的domain类的名字，如果不设置，直接使用表名作为domain类的名字；可以设置为somepck.domainName，那么会自动把domainName类再放到somepck包里面；
+            4，domainObjectName：生成的domain类的名字，如果不设置，直接使用表名作为domain类的名字；可以设置为somepack.domainName，
+                    那么会自动把domainName类再放到somepack包里面；
             5，enableInsert（默认true）：指定是否生成insert语句；
             6，enableSelectByPrimaryKey（默认true）：指定是否生成按照主键查询对象的语句（就是getById或get）；
             7，enableSelectByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询语句；
@@ -164,14 +165,27 @@
             11，enableCountByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询总条数语句（用于分页的总条数查询）；
             12，enableUpdateByExample（默认true）：MyBatis3Simple为false，指定是否生成动态修改语句（只修改对象中不为空的属性）；
             13，modelType：参考context元素的defaultModelType，相当于覆盖；
-            14，delimitIdentifiers：参考tableName的解释，注意，默认的delimitIdentifiers是双引号，如果类似MYSQL这样的数据库，使用的是`（反引号，那么还需要设置context的beginningDelimiter和endingDelimiter属性）
+            14，delimitIdentifiers：参考tableName的解释，注意，默认的delimitIdentifiers是双引号，如果类似MYSQL这样的数据库，
+                    使用的是`（反引号，那么还需要设置context的beginningDelimiter和endingDelimiter属性）
             15，delimitAllColumns：设置是否所有生成的SQL中的列名都使用标识符引起来。默认为false，delimitIdentifiers参考context的属性
 
             注意，table里面很多参数都是对javaModelGenerator，context等元素的默认属性的一个复写；
          -->
-        <table tableName="userinfo">
 
-            <!-- 参考 javaModelGenerator 的 constructorBased属性-->
+        <!--    自动生成对应全表及类名  -->
+        <table tableName="%" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+            <!--是否根据列名自动映射生成字段-->
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+
+        <table schema="" tableName="student" domainObjectName="Student_Info">
+
+            <!-- 如果设置为true，生成的model类会直接使用column本身的名字，而不会再使用驼峰命名方法，
+                    比如BORN_DATE，生成的属性名字就是BORN_DATE,而不会是bornDate -->
+            <property name="useActualColumnNames" value="false"/>
+
+            <!-- 参考 javaModelGenerator 的 constructorBased属性 构建基类构造函数-->
             <property name="constructorBased" value="false"/>
 
             <!-- 默认为false，如果设置为true，在生成的SQL中，table名字不会加上catalog或schema； -->
@@ -204,12 +218,10 @@
             -->
 
             <!-- 注意，该属性只针对MyBatis3Simple有用；
-                如果选择的runtime是MyBatis3Simple，那么会生成一个SelectAll方法，如果指定了selectAllOrderByClause，那么会在该SQL中添加指定的这个order条件；
+                如果选择的runtime是MyBatis3Simple，那么会生成一个SelectAll方法，
+                如果指定了selectAllOrderByClause，那么会在该SQL中添加指定的这个order条件；
              -->
             <property name="selectAllOrderByClause" value="age desc,username asc"/>
-
-            <!-- 如果设置为true，生成的model类会直接使用column本身的名字，而不会再使用驼峰命名方法，比如BORN_DATE，生成的属性名字就是BORN_DATE,而不会是bornDate -->
-            <property name="useActualColumnNames" value="false"/>
 
             <!-- generatedKey用于生成生成主键的方法，
                 如果设置了该元素，MBG会在生成的<insert>元素中生成一条正确的<selectKey>元素，该元素可选
@@ -240,11 +252,12 @@
             <columnRenamingRule searchString="" replaceString=""/>
              -->
 
-
             <!-- 用来修改表中某个列的属性，MBG会使用修改后的列来生成domain的属性；
                 column:要重新设置的列名；
                 注意，一个table元素中可以有多个columnOverride元素哈~
              -->
+            <!--配置列名对应生成相应字段    columnOverride-->
+            <columnOverride column="id" property="colId"/>
             <columnOverride column="username">
                 <!-- 使用property属性来指定列要生成的属性名称 -->
                 <property name="property" value="userName"/>
