@@ -1,9 +1,9 @@
 package com.zsm.sb.service.impl;
 
-import com.zsm.sb.dao.UserDao;
-import com.zsm.sb.model.User;
-import com.zsm.sb.service.UserService;
 import com.github.pagehelper.PageHelper;
+import com.zsm.sb.dao.StudentDao;
+import com.zsm.sb.model.Student;
+import com.zsm.sb.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -17,44 +17,44 @@ import java.util.Map;
  * @Date:Created in 2017/12/29 14:52.
  * @Modified By:
  */
-public class UserServiceImpl implements UserService
+public class StudentServiceImpl implements StudentService
 {
     @Autowired
-    private UserDao userDao;
+    private StudentDao studentDao;
 
     @Autowired
     private RedisTemplate redisTemplate;
 
     @Override
-    public User queryUserById(Long userNo)
+    public Student queryStudentById(Long userNo)
     {
         return null;
     }
 
     @Override
-    public int addUser(User user)
+    public int addStudent(Student user)
     {
         return 0;
     }
 
     @Override
-    public int updateUser(User user)
+    public int updateStudent(Student user)
     {
         return 0;
     }
 
     @Override
-    public int deleteUserByIds(String[] userNos)
+    public int deleteStudentByIds(String[] userNos)
     {
         return 0;
     }
 
     @Override
-    public List<User> queryUserList(Map<String, Object> params)
+    public List<Student> queryStudentList(Map<String, Object> params)
     {
         //分页查询
         PageHelper.startPage(Integer.parseInt(params.get("page").toString()),
             Integer.parseInt(params.get("rows").toString()));
-        return userDao.queryUserList(params);
+        return studentDao.queryStudentList(params);
     }
 }

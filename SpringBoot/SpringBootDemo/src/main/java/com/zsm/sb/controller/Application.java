@@ -1,7 +1,7 @@
 package com.zsm.sb.controller;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.zsm.sb.dao.UserDao;
+import com.zsm.sb.dao.StudentDao;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +14,9 @@ import javax.sql.DataSource;
 
 
 /**
+ * @SpringBootApplicatoin=@Configuration+@EnableAutoConfiguration+@ComponentScan
+ * @SpringBootApplicatoin是用的@ComponentScan扫描的，扫描的是Component，包括@Component, @Controller, @Service, @Repository等
+ * Mybatis自动扫描配置中，使用注解配置时，我们只要在@MapperScan中配置我们需要扫描的Mapper位置
  * @Author: zengsm.
  * @Description:
  * @Date:Created in 2017/12/26 18:29.
@@ -21,7 +24,7 @@ import javax.sql.DataSource;
  */
 @SpringBootApplication
 @EnableTransactionManagement  // 启注解事务管理，等同于xml配置方式的 <tx:annotation-driven />
-@MapperScan(basePackages = "com.zsm.sb.dao", markerInterface = UserDao.class)
+@MapperScan(basePackages = "com.zsm.sb.dao", markerInterface = StudentDao.class)
 public class Application
 {
     @Autowired
@@ -32,8 +35,8 @@ public class Application
         SpringApplication.run(SimpleController.class, args);
     }
 
-    //destroy-method="close"的作用是当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用.
-    @Bean(destroyMethod = "close")
+    //destroy-method="close"的作用是当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用. destroy
+    @Bean(initMethod = "init", destroyMethod = "destroy")
     public DataSource dataSource()
     {
         DruidDataSource dataSource = new DruidDataSource();

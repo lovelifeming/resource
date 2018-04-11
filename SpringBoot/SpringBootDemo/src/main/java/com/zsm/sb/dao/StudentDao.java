@@ -1,6 +1,6 @@
 package com.zsm.sb.dao;
 
-import com.zsm.sb.model.User;
+import com.zsm.sb.model.Student;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @Component
 @Mapper
-public interface UserDao
+public interface StudentDao
 {
     @Select("select * from student where user_no = #{user_no}")
     @Results(id = "userMap", value = {
@@ -24,14 +24,14 @@ public interface UserDao
         @Result(property = "user_name", column = "user_name", javaType = String.class),
         @Result(property = "password", column = "password", javaType = String.class)
     })
-    User queryUserById(@Param("user_no") Long userNo);
+    Student queryStudentById(@Param("user_no") Long userNo);
 
-    int addUser(User user);
+    int addStudent(Student user);
 
-    int updateUser(User user);
+    int updateStudent(Student user);
 
-    int deleteUserByIds(String[] userNos);
+    int deleteStudentByIds(String[] userNos);
 
-    List<User> queryUserList(Map<String, Object> params);
+    List<Student> queryStudentList(Map<String, Object> params);
 
 }

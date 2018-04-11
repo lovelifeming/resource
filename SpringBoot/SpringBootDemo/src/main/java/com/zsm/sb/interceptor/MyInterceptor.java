@@ -1,6 +1,6 @@
 package com.zsm.sb.interceptor;
 
-import com.zsm.sb.model.User;
+import com.zsm.sb.model.Student;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,7 +21,7 @@ public class MyInterceptor implements HandlerInterceptor
         throws Exception
     {
         boolean flag;
-        User user = (User)request.getSession().getAttribute("user");
+        Student user = (Student)request.getSession().getAttribute("user");
         if (null == user)
         {
             response.sendRedirect("toLogin");

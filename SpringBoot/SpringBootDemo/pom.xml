@@ -2,16 +2,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.zsm.sb</groupId>
-    <artifactId>springboot</artifactId>
+    <artifactId>springbootdemo</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>springboot Maven Webapp</name>
+    <name>springbootdemo Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.7.RELEASE</version>
+        <version>2.0.1.RELEASE</version>
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -111,23 +111,40 @@
             <version>1.2.3</version>
         </dependency>
         <!--整合Redis-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-redis</artifactId>
+        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>2.0.1.RELEASE</version>
         </dependency>
-
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>2.8.2</version>
         </dependency>
+        <!--swagger2 RESTFUL接口的文档在线自动生成+功能测试功能组件-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+
+
 
 
     </dependencies>
 
     <build>
         <!--配置打包名称-->
-        <finalName>springboot</finalName>
+        <finalName>springbootdemo</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

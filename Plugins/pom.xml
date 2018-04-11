@@ -12,7 +12,7 @@
         <!--子模块-->
         <module>BigData</module>
         <module>FileTransfer</module>
-        <module>Kafka</module>
+        <module>CollectBinLog</module>
         <module>OSS</module>
     </modules>
     <dependencies>

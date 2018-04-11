@@ -1,7 +1,7 @@
 package com.zsm.sb.controller;
 
 import com.zsm.sb.model.ConfigBean;
-import com.zsm.sb.model.User;
+import com.zsm.sb.model.Student;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,14 +39,14 @@ public class SimpleController
 
     @RequestMapping(value = "userLogin", method = RequestMethod.POST)
     @ResponseBody
-    public String userLogin(User user, Model model)
+    public String userLogin(Student student, Model model)
     {
-        System.out.println(user);
+        System.out.println(student);
         System.out.println(name);
         System.out.println(configBean.getSecret());
 
-        model.addAttribute("name", user.getUserName());
-        model.addAttribute("password", user.getPassword());
+        model.addAttribute("name", student.getUserName());
+        model.addAttribute("password", student.getPassword());
         return "result";
     }
 }

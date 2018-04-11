@@ -1,15 +1,13 @@
 package com.zsm.sb.controller;
 
-import com.zsm.sb.model.User;
+import com.zsm.sb.model.Student;
 import com.zsm.sb.util.AbstractSpringTest;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
@@ -76,7 +74,7 @@ public class SimpleControllerTest extends AbstractSpringTest
     {
         mvc = MockMvcBuilders.webAppContextSetup(wac).build();
         session = new MockHttpSession();
-        User user = new User();
+        Student user = new Student();
         user.setUserName("root");
         user.setPassword("123456");
         session.setAttribute("user", user);
@@ -131,7 +129,7 @@ public class SimpleControllerTest extends AbstractSpringTest
         assertThat("user", anyOf(containsString("user"), containsString("password")));
         String testValue = "user";
         String expectValue = "user";
-        User user = new User();
+        Student user = new Student();
         //字符相关匹配符
         /**equalTo匹配符断言被测的testedValue等于expectedValue，
          * equalTo可以断言数值之间，字符串之间和对象之间是否相等，相当于Object的equals方法
@@ -162,7 +160,7 @@ public class SimpleControllerTest extends AbstractSpringTest
         /**is匹配符简写应用之一，is(equalTo(x))的简写，断言testedValue等于expectedValue*/
         assertThat(testValue, is(expectValue));
         /**is匹配符简写应用之二，is(instanceOf(SomeClass.class))的简写，断言testedObject为Cheddar的实例*/
-        assertThat(user, is(instanceOf(User.class)));
+        assertThat(user, is(instanceOf(Student.class)));
         /**not匹配符和is匹配符正好相反，断言被测的object不等于后面给出的object*/
         assertThat(testValue, not(expectValue));
         /**allOf匹配符断言符合所有条件，相当于“与”（&&）*/
@@ -182,12 +180,12 @@ public class SimpleControllerTest extends AbstractSpringTest
         assertThat(12.0, lessThanOrEqualTo(16.0));
 
         /**集合匹配**/
-        User test1 = new User();
-        User test2 = new User();
-        List<User> user1 = new ArrayList<User>();
+        Student test1 = new Student();
+        Student test2 = new Student();
+        List<Student> user1 = new ArrayList<Student>();
         user1.add(test1);
         user1.add(test2);
-        Map<String, User> userMap = new HashMap<String, User>();
+        Map<String, Student> userMap = new HashMap<String, Student>();
         userMap.put(test1.getUserName(), test1);
         userMap.put(test2.getUserName(), test2);
         //测试集合中是否含有指定元素

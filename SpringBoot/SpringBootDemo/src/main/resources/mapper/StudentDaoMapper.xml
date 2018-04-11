@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zsm.sb.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.zsm.sb.model.User">
+<mapper namespace="com.zsm.sb.dao.StudentDao">
+  <resultMap id="BaseResultMap" type="com.zsm.sb.model.Student">
     <!--
       WARNING - @mbg.generated
     -->
@@ -15,7 +15,7 @@
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
-    <resultMap id="baseResultMap" type="com.zsm.sb.model.User">
+    <resultMap id="baseResultMap" type="com.zsm.sb.model.Student">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="user_no" jdbcType="VARCHAR" property="user_no" />
         <result column="user_name" jdbcType="VARCHAR" property="user_name" />
@@ -26,7 +26,7 @@
         id, user_no, user_name,password
     </sql>
 
-    <select id="queryUserList" parameterType="java.util.HashMap" resultMap="baseResultMap">
+    <select id="queryStudentList" parameterType="java.util.HashMap" resultMap="baseResultMap">
         select
         <include refid="baseColumnList" />
         from student
@@ -41,22 +41,22 @@
         </where>
     </select>
 
-    <select id="queryUserById" parameterType="java.lang.Long" resultMap="baseResultMap">
+    <select id="queryStudentById" parameterType="java.lang.Long" resultMap="baseResultMap">
         SELECT
         <include refid="baseColumnList" />
         FROM student
         WHERE id = #{id}
     </select>
 
-    <insert id="addUser" parameterType="com.zsm.sb.model.User">
+    <insert id="addStudent" parameterType="com.zsm.sb.model.Student">
         INSERT INTO student (user_no, user_name,url) VALUES (#{user_no}, #{user_name}, #{url})
     </insert>
 
-    <update id="updateUser" parameterType="com.zsm.sb.model.User">
+    <update id="updateStudent" parameterType="com.zsm.sb.model.Student">
         UPDATE student SET user_no = #{user_no},user_name = #{user_name},url = #{url} WHERE id = #{id}
     </update>
 
-    <delete id="deleteUserByIds" parameterType="java.lang.String">
+    <delete id="deleteStudentByIds" parameterType="java.lang.String">
         DELETE FROM student WHERE id in
         <foreach close=")" collection="array" item="idItem" open="(" separator=",">
             #{idItem}

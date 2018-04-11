@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.zsm.kafka</groupId>
-    <artifactId>Kafka</artifactId>
-    <packaging>war</packaging>
+    <groupId>com.zsm.cbl</groupId>
+    <artifactId>CollectBinLog</artifactId>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>kafka Maven Webapp</name>
+    <name>CollectBinLog</name>
     <url>http://maven.apache.org</url>
     <parent>
         <artifactId>Plugins</artifactId>
@@ -16,19 +16,39 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
-        <!--KAFKA-->
+        <!--日志组件:slf4j-api  slf4j-log4j12-->
         <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
-            <version>0.11.0.1</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zendesk</groupId>
+            <artifactId>open-replicator</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.44</version>
         </dependency>
 
     </dependencies>
     <build>
-        <finalName>Kafka</finalName>
+        <finalName>CollectBinLog</finalName>
         <!--编译拷贝资源文件-->
         <resources>
             <resource>
@@ -74,7 +94,7 @@
                     <archive>
                         <manifest>
                             <!-- main函数类名-->
-                            <mainClass>com.zsm.kafka.Main</mainClass>
+                            <mainClass>com.zsm.cbl.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
