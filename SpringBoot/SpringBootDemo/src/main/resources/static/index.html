@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index1</title>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <style>
+        .control-main {
+            margin-top: 200px;
+            margin-left: 40%
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="control-main">
+        <input id="data" type="text">
+        <button id="test" type="button"><span>测试首页</span></button>
+    </div>
+    <div class="control-main">
+        <button id="api_page" type="button">Swagger API 接口页面</button>
+    </div>
+</div>
+</body>
+</html>
+<script type=text/javascript>
+    $(function () {
+        $("#test").click(function () {
+            var data = $("#data").val();
+            $.ajax({
+                url: "test/post",
+                type: "post",
+                data: {data: data},
+                success: function (data) {
+                    console.log(data);
+                    alert(data);
+                }
+            })
+        });
+        $("#api_page").click(function () {
+            window.location.href = "/swagger-ui.html";
+        });
+    })
+</script>

@@ -1,6 +1,7 @@
-package com.zsm.sb.controller;
+package com.zsm.sb;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -13,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 /**
- * swagger2的配置文件，建在项目的启动类的同级目录下
+ * swagger2的配置文件，建在项目的启动类的同级目录下,访问路径：http://localhost:8080/swagger-ui.html
  *
  * @Author: zengsm.
  * @Description:
@@ -22,6 +23,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
+@ComponentScan(basePackages = "com.zsm.sb.controller")
 public class Swagger2
 {
     @Bean

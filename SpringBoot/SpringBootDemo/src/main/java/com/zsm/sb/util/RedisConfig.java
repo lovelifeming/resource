@@ -19,7 +19,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * @Modified By:
  */
 @Configuration
-@PropertySource("classpath:config/redis.properties")
+@PropertySource("classpath:properties/redis.properties")
 public class RedisConfig
 {
     @Autowired

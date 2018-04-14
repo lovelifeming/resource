@@ -1,51 +1,42 @@
-package com.zsm.sb.controller;
+package com.zsm.sb;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.zsm.sb.dao.StudentDao;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.sql.DataSource;
 
 
 /**
  * @SpringBootApplicatoin=@Configuration+@EnableAutoConfiguration+@ComponentScan
  * @SpringBootApplicatoin是用的@ComponentScan扫描的，扫描的是Component，包括@Component, @Controller, @Service, @Repository等
  * Mybatis自动扫描配置中，使用注解配置时，我们只要在@MapperScan中配置我们需要扫描的Mapper位置
- * @Author: zengsm.
- * @Description:
- * @Date:Created in 2017/12/26 18:29.
- * @Modified By:
  */
 @SpringBootApplication
-@EnableTransactionManagement  // 启注解事务管理，等同于xml配置方式的 <tx:annotation-driven />
-@MapperScan(basePackages = "com.zsm.sb.dao", markerInterface = StudentDao.class)
+@MapperScan(value = "com.zsm.sb.dao")
 public class Application
 {
     @Autowired
-    private Environment env;
+    private Environment environment;
 
     public static void main(String[] args)
     {
-        SpringApplication.run(SimpleController.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
-    //destroy-method="close"的作用是当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用. destroy
-    @Bean(initMethod = "init", destroyMethod = "destroy")
-    public DataSource dataSource()
+    //destroy-method="close"的作用是当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用.
+    @Bean(initMethod = "init", destroyMethod = "close")
+    public DruidDataSource dataSource()
     {
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUrl(env.getProperty("spring.datasource.url"));
+        dataSource.setUrl(environment.getProperty("spring.datasource.url"));
         //用户名
-        dataSource.setUsername(env.getProperty("spring.datasource.username"));
+        dataSource.setUsername(environment.getProperty("spring.datasource.username"));
         //密码
-        dataSource.setPassword(env.getProperty("spring.datasource.password"));
-        dataSource.setDriverClassName(env.getProperty("spring.datasource.driver-class-name"));
+        dataSource.setPassword(environment.getProperty("spring.datasource.password"));
+        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
         //初始化时建立物理连接的个数
         dataSource.setInitialSize(2);
         //最大连接池数量
@@ -64,5 +55,4 @@ public class Application
         dataSource.setPoolPreparedStatements(false);
         return dataSource;
     }
-
 }

@@ -1,159 +1,111 @@
 package com.zsm.sb.model;
 
 import java.util.Date;
-import javax.persistence.*;
 
-@Table(name = "student")
 public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Id
-    @Column(name = "user_no")
-    private String userNo;
+    private String user_no;
 
-    @Column(name = "user_name")
-    private String userName;
+    private String user_name;
 
     private String password;
 
-    @Column(name = "user_sex")
-    private String userSex;
+    private String user_sex;
 
-    @Column(name = "user_birthday")
-    private Date userBirthday;
+    private Date user_birthday;
 
-    @Column(name = "user_class")
-    private String userClass;
+    private String user_class;
 
     private Date createtime;
 
     private Date updatetime;
 
-    /**
-     * @return id
-     */
     public Integer getId() {
         return id;
     }
 
-    /**
-     * @param id
-     */
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     * @return user_no
-     */
-    public String getUserNo() {
-        return userNo;
+    public String getUser_no() {
+        return user_no;
     }
 
-    /**
-     * @param userNo
-     */
-    public void setUserNo(String userNo) {
-        this.userNo = userNo == null ? null : userNo.trim();
+    public void setUser_no(String user_no) {
+        this.user_no = user_no == null ? null : user_no.trim();
     }
 
-    /**
-     * @return user_name
-     */
-    public String getUserName() {
-        return userName;
+    public String getUser_name() {
+        return user_name;
     }
 
-    /**
-     * @param userName
-     */
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+    public void setUser_name(String user_name) {
+        this.user_name = user_name == null ? null : user_name.trim();
     }
 
-    /**
-     * @return password
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * @param password
-     */
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
     }
 
-    /**
-     * @return user_sex
-     */
-    public String getUserSex() {
-        return userSex;
+    public String getUser_sex() {
+        return user_sex;
     }
 
-    /**
-     * @param userSex
-     */
-    public void setUserSex(String userSex) {
-        this.userSex = userSex == null ? null : userSex.trim();
+    public void setUser_sex(String user_sex) {
+        this.user_sex = user_sex == null ? null : user_sex.trim();
     }
 
-    /**
-     * @return user_birthday
-     */
-    public Date getUserBirthday() {
-        return userBirthday;
+    public Date getUser_birthday() {
+        return user_birthday;
     }
 
-    /**
-     * @param userBirthday
-     */
-    public void setUserBirthday(Date userBirthday) {
-        this.userBirthday = userBirthday;
+    public void setUser_birthday(Date user_birthday) {
+        this.user_birthday = user_birthday;
     }
 
-    /**
-     * @return user_class
-     */
-    public String getUserClass() {
-        return userClass;
+    public String getUser_class() {
+        return user_class;
     }
 
-    /**
-     * @param userClass
-     */
-    public void setUserClass(String userClass) {
-        this.userClass = userClass == null ? null : userClass.trim();
+    public void setUser_class(String user_class) {
+        this.user_class = user_class == null ? null : user_class.trim();
     }
 
-    /**
-     * @return createtime
-     */
     public Date getCreatetime() {
         return createtime;
     }
 
-    /**
-     * @param createtime
-     */
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
 
-    /**
-     * @return updatetime
-     */
     public Date getUpdatetime() {
         return updatetime;
     }
 
-    /**
-     * @param updatetime
-     */
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Student{" +
+               "id=" + id +
+               ", user_no='" + user_no + '\'' +
+               ", user_name='" + user_name + '\'' +
+               ", password='" + password + '\'' +
+               ", user_sex='" + user_sex + '\'' +
+               ", user_birthday=" + user_birthday +
+               ", user_class='" + user_class + '\'' +
+               ", createtime=" + createtime +
+               ", updatetime=" + updatetime +
+               '}';
     }
 }

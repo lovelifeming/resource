@@ -1,65 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zsm.sb.dao.StudentMapper">
-  <resultMap id="BaseResultMap" type="com.zsm.sb.model.Student">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <id column="user_no" jdbcType="VARCHAR" property="userNo" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="user_sex" jdbcType="VARCHAR" property="userSex" />
-    <result column="user_birthday" jdbcType="TIMESTAMP" property="userBirthday" />
-    <result column="user_class" jdbcType="VARCHAR" property="userClass" />
-    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
-    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
-  </resultMap>
-    <resultMap id="baseResultMap" type="com.zsm.sb.model.Student">
-        <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="user_no" jdbcType="VARCHAR" property="user_no" />
-        <result column="user_name" jdbcType="VARCHAR" property="user_name" />
-        <result column="password" jdbcType="VARCHAR" property="password" />
+    <resultMap id="BaseResultMap" type="com.zsm.sb.model.Student">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="user_no" jdbcType="VARCHAR" property="user_no"/>
+        <result column="user_name" jdbcType="VARCHAR" property="user_name"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="user_sex" jdbcType="VARCHAR" property="user_sex"/>
+        <result column="user_birthday" jdbcType="TIMESTAMP" property="user_birthday"/>
+        <result column="user_class" jdbcType="VARCHAR" property="user_class"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime"/>
     </resultMap>
-
-    <sql id="baseColumnList">
-        id, user_no, user_name,password
-    </sql>
-
-    <select id="queryStudentList" parameterType="java.util.HashMap" resultMap="baseResultMap">
+    <sql id="Base_Column_List">
+    id, user_no, user_name, password, user_sex, user_birthday, user_class, createtime,
+    updatetime
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
         select
-        <include refid="baseColumnList" />
+        <include refid="Base_Column_List"/>
         from student
-        <where>
-            1 = 1
-            <if test="user_no!= null and user_no !=''">
-                AND user_no like CONCAT(CONCAT('%',#{user_no,jdbcType=VARCHAR}),'%')
-            </if>
-            <if test="user_name != null and user_name !=''">
-                AND user_name like  CONCAT(CONCAT('%',#{user_name,jdbcType=VARCHAR}),'%')
-            </if>
-        </where>
+        where id = #{id,jdbcType=INTEGER}
+        and user_no = #{user_no,jdbcType=VARCHAR}
     </select>
-
-    <select id="queryStudentById" parameterType="java.lang.Long" resultMap="baseResultMap">
-        SELECT
-        <include refid="baseColumnList" />
-        FROM student
-        WHERE id = #{id}
-    </select>
-
-    <insert id="addStudent" parameterType="com.zsm.sb.model.Student">
-        INSERT INTO student (user_no, user_name,url) VALUES (#{user_no}, #{user_name}, #{url})
+    <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from student
+    where id = #{id,jdbcType=INTEGER}
+      and user_no = #{user_no,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.zsm.sb.model.Student">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into student (user_no, user_name, password,
+        user_sex, user_birthday, user_class,
+        createtime, updatetime)
+        values (#{user_no,jdbcType=VARCHAR}, #{user_name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{user_sex,jdbcType=VARCHAR}, #{user_birthday,jdbcType=TIMESTAMP}, #{user_class,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
     </insert>
-
-    <update id="updateStudent" parameterType="com.zsm.sb.model.Student">
-        UPDATE student SET user_no = #{user_no},user_name = #{user_name},url = #{url} WHERE id = #{id}
+    <insert id="insertSelective" parameterType="com.zsm.sb.model.Student">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user_no != null">
+                user_no,
+            </if>
+            <if test="user_name != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="user_sex != null">
+                user_sex,
+            </if>
+            <if test="user_birthday != null">
+                user_birthday,
+            </if>
+            <if test="user_class != null">
+                user_class,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="updatetime != null">
+                updatetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="user_no != null">
+                #{user_no,jdbcType=VARCHAR},
+            </if>
+            <if test="user_name != null">
+                #{user_name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="user_sex != null">
+                #{user_sex,jdbcType=VARCHAR},
+            </if>
+            <if test="user_birthday != null">
+                #{user_birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="user_class != null">
+                #{user_class,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zsm.sb.model.Student">
+        update student
+        <set>
+            <if test="user_name != null">
+                user_name = #{user_name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="user_sex != null">
+                user_sex = #{user_sex,jdbcType=VARCHAR},
+            </if>
+            <if test="user_birthday != null">
+                user_birthday = #{user_birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="user_class != null">
+                user_class = #{user_class,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null">
+                updatetime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+        and user_no = #{user_no,jdbcType=VARCHAR}
     </update>
-
-    <delete id="deleteStudentByIds" parameterType="java.lang.String">
-        DELETE FROM student WHERE id in
-        <foreach close=")" collection="array" item="idItem" open="(" separator=",">
-            #{idItem}
-        </foreach>
-    </delete>
+    <update id="updateByPrimaryKey" parameterType="com.zsm.sb.model.Student">
+    update student
+    set user_name = #{user_name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      user_sex = #{user_sex,jdbcType=VARCHAR},
+      user_birthday = #{user_birthday,jdbcType=TIMESTAMP},
+      user_class = #{user_class,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+      and user_no = #{user_no,jdbcType=VARCHAR}
+  </update>
+    <select id="selectStudentByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from student
+        where user_name = #{name,jdbcType=VARCHAR}
+    </select>
 </mapper>
