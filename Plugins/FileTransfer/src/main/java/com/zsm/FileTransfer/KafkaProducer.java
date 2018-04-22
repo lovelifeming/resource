@@ -11,6 +11,9 @@ import java.util.Properties;
 import java.util.UUID;
 
 
+/**
+ * KAFKA 生产者 生产消息     topic name必须与在Kafka上面手动创建的topic同名
+ */
 public class KafkaProducer
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProducer.class);
