@@ -4,9 +4,16 @@ import com.alibaba.druid.pool.DruidDataSource;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.servlet.MultipartConfigElement;
 
 
 /**
@@ -16,6 +23,20 @@ import org.springframework.core.env.Environment;
  */
 @SpringBootApplication
 @MapperScan(value = "com.zsm.sb.dao")
+@Configuration
+@EnableAutoConfiguration
+@EnableTransactionManagement
+/**
+ * 通过 @PropertySource 注解，并定义多个路径，后面的属性将覆盖前面的。
+ * 在需要覆盖属性时，只需在 jar 同级目录中放入 config 文件夹并在其中放入 config.properties 文件即可。
+ * ignoreResourceNotFound = true，忽略找不到时的错误提示，否则开发环境编译不过，因为找不到这个路径下的文件
+ * 第一种是     在jar包的同一目录下建一个config文件夹，然后把配置文件放到这个文件夹下；
+ * 第二种是     直接把配置文件放到jar包的同级目录；
+ * 第三种是     在classpath下建一个config文件夹，然后把配置文件放进去；
+ * 第四种是     在classpath下直接放配置文件。
+ */
+@PropertySource(value = {"classpath:/application.properties", "file:/application.properties",
+    "file:/config/config.properties"}, ignoreResourceNotFound = true)
 public class Application
 {
     @Autowired
@@ -54,5 +75,21 @@ public class Application
         //是否缓存preparedStatement，也就是PSCache
         dataSource.setPoolPreparedStatements(false);
         return dataSource;
+    }
+
+    /**
+     * 文件上传配置
+     *
+     * @return
+     */
+    @Bean
+    public MultipartConfigElement multipartConfigElement()
+    {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        //文件最大
+        factory.setMaxFileSize("10240KB"); //KB,MB
+        /// 设置总上传数据总大小
+        factory.setMaxRequestSize("102400KB");
+        return factory.createMultipartConfig();
     }
 }

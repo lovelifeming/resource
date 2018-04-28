@@ -1,4 +1,4 @@
-package com.zsm.oss;
+package com.zsm.demo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

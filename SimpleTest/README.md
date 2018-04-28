@@ -12,3 +12,4 @@ SSH
 	SSH 框架Demo Spring Struts Hibernate
 SimpleTest
 	JAR测试项目
+	War测试项目

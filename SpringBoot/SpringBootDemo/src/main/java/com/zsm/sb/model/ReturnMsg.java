@@ -73,6 +73,18 @@ public class ReturnMsg
         return this;
     }
 
+    public ReturnMsg modifyMsg(Map<String, Object> data)
+    {
+        this.setData(data);
+        return this;
+    }
+
+    public ReturnMsg modifyMsg(String message)
+    {
+        this.setMessage(message);
+        return this;
+    }
+
     public boolean isSuccess()
     {
         return success;

@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.zsm.oss</groupId>
-    <artifactId>OSS</artifactId>
-    <packaging>war</packaging>
+    <groupId>com.zsm.canal</groupId>
+    <artifactId>Canal</artifactId>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>OSS Maven Webapp</name>
+    <name>Canal Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <parent>
         <groupId>com.zsm.plugin</groupId>
-        <artifactId>Plugins</artifactId>
+        <artifactId>plugins</artifactId>
         <version>1.0.0</version>
     </parent>
     <dependencies>
@@ -31,9 +31,26 @@
             <version>1.7.25</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba.otter</groupId>
+            <artifactId>canal.common</artifactId>
+            <version>1.0.25</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.otter</groupId>
+            <artifactId>canal.instance.manager</artifactId>
+            <version>1.0.25</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.otter</groupId>
+            <artifactId>canal.client</artifactId>
+            <version>1.0.25</version>
+        </dependency>
+
+
     </dependencies>
     <build>
-        <finalName>OSS</finalName>
+        <finalName>canal-test</finalName>
             <!--编译拷贝资源文件-->
             <resources>
                 <resource>
@@ -84,7 +101,7 @@
                     <archive>
                         <manifest>
                             <!-- main函数类名-->
-                            <mainClass>com.zsm.oss.Main</mainClass>
+                            <mainClass>com.zsm.canal.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
