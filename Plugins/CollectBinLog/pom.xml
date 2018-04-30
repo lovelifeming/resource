@@ -8,7 +8,7 @@
     <name>CollectBinLog</name>
     <url>http://maven.apache.org</url>
     <parent>
-        <artifactId>Plugins</artifactId>
+        <artifactId>plugins</artifactId>
         <groupId>com.zsm.plugin</groupId>
         <version>1.0.0</version>
     </parent>
@@ -44,6 +44,11 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.44</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.47</version>
         </dependency>
 
     </dependencies>

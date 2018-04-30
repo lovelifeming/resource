@@ -8,7 +8,7 @@
     <name>BigData Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <parent>
-        <artifactId>Plugins</artifactId>
+        <artifactId>plugins</artifactId>
         <groupId>com.zsm.plugin</groupId>
         <version>1.0.0</version>
     </parent>

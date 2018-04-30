@@ -8,7 +8,7 @@
     <name>FileTransfer Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <parent>
-        <artifactId>Plugins</artifactId>
+        <artifactId>plugins</artifactId>
         <groupId>com.zsm.plugin</groupId>
         <version>1.0.0</version>
     </parent>
@@ -46,12 +46,17 @@
             <artifactId>mybatis</artifactId>
             <version>3.4.6</version>
         </dependency>
-
         <dependency>
+            <groupId>net.oschina.zcx7878</groupId>
+            <artifactId>fastdfs-client-java</artifactId>
+            <version>1.27.0.0</version>
+        </dependency>
+
+        <!--<dependency>
             <groupId>com.fsnip</groupId>
             <artifactId>fastdfs</artifactId>
             <version>1.0</version>
-        </dependency>
+        </dependency>-->
 
         <!--KAFKA-->
         <dependency>

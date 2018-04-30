@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.zsm.plugin</groupId>
-    <artifactId>Plugins</artifactId>
+    <artifactId>plugins</artifactId>
     <name>Plugins Maven WebApp</name>
     <url>http://maven.apache.org</url>
     <!--打包类型选择pom -->
@@ -13,7 +13,8 @@
         <module>BigData</module>
         <module>FileTransfer</module>
         <module>CollectBinLog</module>
-        <module>OSS</module>
+        <module>Canal</module>
+        <module>Demo</module>
     </modules>
     <dependencies>
     </dependencies>
