@@ -29,14 +29,19 @@ public class KafkaConsumer implements Runnable
     public KafkaConsumer(String topicName)
     {
         Properties properties = new Properties();
+        //kafka的集群IP地址及端口
         properties.put("bootstrap.servers", "127.0.0.1:9092");
         properties.put("group.id", GROUP_ID);
+        //是否自动提交 true为自动提交
         properties.put("enable.auto.commit", "true");
+        //自动提交时间间隔
         properties.put("auto.commit.interval.ms", "1000");
         properties.put("session.timeout.ms", "30000");
         properties.put("auto.offset.reset", "earliest");
+        //key和value 序列化
         properties.put("key.deserializer", StringDeserializer.class.getName());
         properties.put("value.deserializer", StringDeserializer.class.getName());
+        //zookeeper的集群IP地址及端口
         properties.put("zookeeper.connect", "127.0.0.1:2181,127.0.0.1:2182");
         this.consumer = new org.apache.kafka.clients.consumer.KafkaConsumer<String, String>(properties);
         this.topicName = topicName;

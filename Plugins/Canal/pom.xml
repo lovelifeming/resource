@@ -46,7 +46,17 @@
             <artifactId>canal.client</artifactId>
             <version>1.0.25</version>
         </dependency>
-
+        <!-- kafka依赖 -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.12</artifactId>
+            <version>0.11.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>0.11.0.1</version>
+        </dependency>
 
     </dependencies>
     <build>
