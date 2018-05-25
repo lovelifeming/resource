@@ -69,4 +69,10 @@ public class TableInfo
     {
         this.fullName = fullName;
     }
+
+    @Override
+    public String toString()
+    {
+        return databaseName + ' ' + tableName;
+    }
 }

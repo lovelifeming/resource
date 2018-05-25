@@ -32,7 +32,7 @@ public class CDCEvent
 
     private long position = 0;
 
-    private long nextPostion = 0;
+    private long nextPosition = 0;
 
     private long serverId = 0;
 
@@ -67,7 +67,7 @@ public class CDCEvent
         this.serverId = header.getServerId();
         this.timestampReceipt = header.getTimestampOfReceipt();
         this.position = header.getPosition();
-        this.nextPostion = header.getNextPosition();
+        this.nextPosition = header.getNextPosition();
 //        this.binlogName = header.getBinlogFileName();
     }
 
@@ -83,7 +83,7 @@ public class CDCEvent
         builder.append(",timestampReceipt:").append(timestampReceipt);
         builder.append(",binlogName:").append(binlogName);
         builder.append(",position:").append(position);
-        builder.append(",nextPostion:").append(nextPostion);
+        builder.append(",nextPosition:").append(nextPosition);
         builder.append(",serverId:").append(serverId);
         builder.append(",isDdl:").append(isDdl);
         builder.append(",sql:").append(sql);
@@ -173,14 +173,14 @@ public class CDCEvent
         this.position = position;
     }
 
-    public long getNextPostion()
+    public long getNextPosition()
     {
-        return nextPostion;
+        return nextPosition;
     }
 
-    public void setNextPostion(long nextPostion)
+    public void setNextPosition(long nextPosition)
     {
-        this.nextPostion = nextPostion;
+        this.nextPosition = nextPosition;
     }
 
     public long getServerId()

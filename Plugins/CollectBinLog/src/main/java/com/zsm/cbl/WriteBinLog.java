@@ -13,6 +13,8 @@ import java.io.IOException;
 
 
 /**
+ * 表格信息写操作类
+ *
  * @Author: zengsm.
  * @Description:
  * @Date:Created in 2018/4/26.
@@ -85,5 +87,4 @@ public class WriteBinLog
         }
         return true;
     }
-
 }
