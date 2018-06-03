@@ -4,7 +4,6 @@ import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;
 import com.zsm.canal.model.Canals;
 import com.zsm.canal.model.Cluster;
-import com.zsm.canal.model.KAFKATopic;
 import com.zsm.canal.model.Simple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +33,7 @@ public class Main
     {
         try
         {
-            List<CanalClient> clients = startCanalClients();
+            List<CanalClient> clients = createCanalClients();
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 for (CanalClient canalClient : clients)
@@ -64,7 +63,7 @@ public class Main
         }
     }
 
-    private static List<CanalClient> startCanalClients()
+    private static List<CanalClient> createCanalClients()
     {
         List<CanalClient> clients = new ArrayList<>();
         String rootPath = System.getProperty("user.dir");
@@ -163,7 +162,7 @@ public class Main
         catch (JAXBException e)
         {
             e.printStackTrace();
-            LOGGER.error("xml 解析失败", e);
+            LOGGER.error("xml analysis fail", e);
         }
         return canals;
     }
