@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<canals>
+    <!-- 单机模式simple  集群模式cluster-->
+    <pattern>simple</pattern>
+
+    <!--simple 可以配置多个-->
+    <simple>
+        <destination>test_dba</destination>
+        <topicname>test_dba</topicname>
+        <hostname>192.168.1.101</hostname>
+        <port>11111</port>
+        <username>root</username>
+        <password>123456</password>
+        <zkurl>192.168.1.101:2181</zkurl>
+    </simple>
+    <simple>
+        <destination>test_dbb</destination>
+        <topicname>test_dbb</topicname>
+        <hostname>192.168.1.101</hostname>
+        <port>11111</port>
+        <username>root</username>
+        <password>123456</password>
+        <zkurl>192.168.1.101:2181</zkurl>
+    </simple>
+
+    <!--cluster 可以配置多个-->
+    <cluster>
+         <zkservice>192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181</zkservice>
+         <destination>test_dba</destination>
+         <topicname>test_dba</topicname>
+         <username>root</username>
+         <password>123456</password>
+     </cluster>
+     <cluster>
+         <zkservice>192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181</zkservice>
+         <destination>test_dbb</destination>
+         <topicname>test_dbb</topicname>
+         <username>root</username>
+         <password>123456</password>
+     </cluster>
+</canals>
