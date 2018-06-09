@@ -5,6 +5,7 @@ import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.alibaba.otter.canal.protocol.CanalEntry.*;
 import com.alibaba.otter.canal.protocol.Message;
+import com.zsm.canal.model.Email;
 import org.apache.commons.lang.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,12 +29,6 @@ public class CanalClient
 
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    private static String CONTEXT_FORMAT = null;
-
-    private static String row_format = null;
-
-    private static String TRANSACTION_FORMAT = null;
-
     private KAFKAProducer kafkaProducer;
 
     private String topicName;
@@ -42,30 +37,28 @@ public class CanalClient
 
     private String destination;
 
+    private Email email;
+
     private volatile boolean running = false;
 
     private Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler()
     {
         public void uncaughtException(Thread t, Throwable e)
         {
-            LOGGER.error(String.format("parse events has an error! Thread name:%s", t.getId() + t.getName()), e);
+            String message = String.format("parse events has an error! Thread name:%s  destination:%s exception:%s",
+                t.getId() + t.getName(), destination, e.getMessage());
+            LOGGER.error(message, e);
+            if (email != null && email.getSendto().size() > 0)
+            {
+                for (String to : email.getSendto())
+                {
+                    SendMail.sendMail(email.getFrom(), email.getPassword(), to, destination, message);
+                }
+            }
         }
     };
 
     private Thread thread = null;
-
-    static
-    {
-        CONTEXT_FORMAT = SEP + "****************************************************" + SEP;
-        CONTEXT_FORMAT += "* Batch Id: [{}] ,count : [{}] , memsize : [{}] , Time : {}" + SEP;
-        CONTEXT_FORMAT += "* Start : [{}] " + SEP;
-        CONTEXT_FORMAT += "* End : [{}] " + SEP;
-        CONTEXT_FORMAT += "****************************************************" + SEP;
-        row_format = SEP
-                     + "—————-> binlog[{}:{}] , name[{},{}] , eventType : {} , executeTime : {} , delay : {}ms"
-                     + SEP;
-        TRANSACTION_FORMAT = SEP + "================> binlog[{}:{}] , executeTime : {} , delay : {}ms" + SEP;
-    }
 
     public CanalClient(String destination, CanalConnector connector, KAFKAProducer producer, String topicName)
     {
@@ -333,5 +326,10 @@ public class CanalClient
     public String getDestination()
     {
         return destination;
+    }
+
+    public void setEmail(Email email)
+    {
+        this.email = email;
     }
 }

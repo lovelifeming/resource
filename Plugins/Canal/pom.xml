@@ -62,41 +62,52 @@
             <artifactId>mybatis</artifactId>
             <version>3.4.5</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>c3p0</groupId>-->
-            <!--<artifactId>c3p0</artifactId>-->
-            <!--<version>0.9.5.2</version>-->
-        <!--</dependency>-->
+        <!--<dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.5.2</version>
+        </dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.8-dmr</version>
         </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
 
     </dependencies>
     <build>
         <finalName>canal-test</finalName>
-            <!--编译拷贝资源文件-->
-            <resources>
-                <resource>
-                    <directory>src/main/java</directory>
-                    <includes>
-                        <include>**/*.xml</include>
-                    </includes>
-                </resource>
-                <resource>
-                    <directory>src/main/resources</directory>
-                    <includes>
-                        <include>**/*.xml</include>
-                        <include>**/*.conf</include>
-                        <include>**/*.properties</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/*.jar</exclude>
-                    </excludes>
-                    <filtering>true</filtering>
-                </resource>
-            </resources>
+        <!--编译拷贝资源文件-->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.conf</include>
+                    <include>**/*.properties</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.jar</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
         <plugins>
             <!--maven 打包添加外部jar包-->

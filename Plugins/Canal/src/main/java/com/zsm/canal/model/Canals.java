@@ -25,6 +25,9 @@ public class Canals
     @XmlElement(name = "simple")
     List<Simple> simples;
 
+    @XmlElement(name = "emails")
+    Email emails;
+
     public String getPattern()
     {
         return pattern;
@@ -55,6 +58,16 @@ public class Canals
         this.simples = simples;
     }
 
+    public Email getEmails()
+    {
+        return emails;
+    }
+
+    public void setEmails(Email emails)
+    {
+        this.emails = emails;
+    }
+
     @Override
     public String toString()
     {
@@ -62,6 +75,7 @@ public class Canals
                "pattern='" + pattern + '\'' +
                ", clusters=" + clusters +
                ", simples=" + simples +
+               ", emails=" + emails +
                '}';
     }
 }

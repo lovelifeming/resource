@@ -34,7 +34,6 @@ public class Main
         try
         {
             List<CanalClient> clients = createCanalClients();
-
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 for (CanalClient canalClient : clients)
                 {
@@ -68,9 +67,9 @@ public class Main
         List<CanalClient> clients = new ArrayList<>();
         String rootPath = System.getProperty("user.dir");
         String kafkaConf = rootPath + File.separator + "conf" + File.separator + "producer.properties";
-
         String filePath = rootPath + File.separator + "conf" + File.separator + "canal-conf.xml";
         Canals canals = analysisXml(filePath);
+
         if (!validateConfig(canals))
         {
             throw new RuntimeException("config error:please check config file!");
@@ -87,6 +86,7 @@ public class Main
 
                 CanalClient canalClient = new CanalClient(simple.getDestination(), connector, producer,
                     simple.getTopicname());
+                canalClient.setEmail(canals.getEmails());
                 canalClient.start();
                 clients.add(canalClient);
             }
@@ -102,6 +102,7 @@ public class Main
 
                 CanalClient canalClient = new CanalClient(cluster.getDestination(), connector, producer,
                     cluster.getTopicname());
+                canalClient.setEmail(canals.getEmails());
                 canalClient.start();
                 clients.add(canalClient);
             }
