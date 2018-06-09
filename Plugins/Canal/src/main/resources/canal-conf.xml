@@ -25,17 +25,26 @@
 
     <!--cluster 可以配置多个-->
     <cluster>
-         <zkservice>192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181</zkservice>
-         <destination>test_dba</destination>
-         <topicname>test_dba</topicname>
-         <username>root</username>
-         <password>123456</password>
-     </cluster>
-     <cluster>
-         <zkservice>192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181</zkservice>
-         <destination>test_dbb</destination>
-         <topicname>test_dbb</topicname>
-         <username>root</username>
-         <password>123456</password>
-     </cluster>
+        <zkservice>192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181</zkservice>
+        <destination>test_dba</destination>
+        <topicname>test_dba</topicname>
+        <username>root</username>
+        <password>123456</password>
+    </cluster>
+    <cluster>
+        <zkservice>192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181</zkservice>
+        <destination>test_dbb</destination>
+        <topicname>test_dbb</topicname>
+        <username>root</username>
+        <password>123456</password>
+    </cluster>
+
+    <!-- email 监控线程报错自动发送邮件，收件人邮箱可配多个 -->
+    <emails>
+        <from>sendemail@qq.com</from>
+        <password>123456</password>
+        <sendto>receiver@qq.com</sendto>
+        <sendto>receiver1@qq.com</sendto>
+        <sendto>receiver2@qq.com</sendto>
+    </emails>
 </canals>
