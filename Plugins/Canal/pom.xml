@@ -5,7 +5,7 @@
     <artifactId>Canal</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Canal Maven Webapp</name>
+    <name>Canal</name>
     <url>http://maven.apache.org</url>
     <parent>
         <groupId>com.zsm.plugin</groupId>

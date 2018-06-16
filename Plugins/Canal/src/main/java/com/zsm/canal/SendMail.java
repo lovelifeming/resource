@@ -12,6 +12,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 import java.security.GeneralSecurityException;
+import java.util.List;
 import java.util.Properties;
 
 
@@ -24,6 +25,11 @@ import java.util.Properties;
 public class SendMail
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(SendMail.class);
+
+    public static void sendMails(String from, String password, List<String> to, String subject, String content)
+    {
+        to.forEach(t -> SendMail.sendMail(from, password, t, subject, content));
+    }
 
     public static void sendMail(String from, String password, String to, String subject, String content)
     {

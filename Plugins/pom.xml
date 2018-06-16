@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.zsm.plugin</groupId>
     <artifactId>plugins</artifactId>
-    <name>Plugins Maven WebApp</name>
+    <name>Plugins</name>
     <url>http://maven.apache.org</url>
     <!--打包类型选择pom -->
     <packaging>pom</packaging>
@@ -15,6 +15,7 @@
         <module>CollectBinLog</module>
         <module>Canal</module>
         <module>Demo</module>
+        <module>Drool</module>
     </modules>
     <dependencies>
     </dependencies>

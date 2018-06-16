@@ -4,6 +4,7 @@ import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;
 import com.zsm.canal.model.Canals;
 import com.zsm.canal.model.Cluster;
+import com.zsm.canal.model.Email;
 import com.zsm.canal.model.Simple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,22 @@ public class Main
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
+    private static final String WRONG_TIPS = "the something goes wrong when stopping canal:";
+
+    private static final String CANAL_CLIENT_IS_STP = "the canal client is stop:";
+
+    private static final String CANAL_CLIENT_IS_DOWN = "the canal client is down.";
+
+    private static final String CANAL_CLIENT_IS_END = "the canal is killed or ended";
+
+    private static final String START_FLAG = "## ";
+
+    private static final String CONFIG_ERROR = "config error:please check config file! ";
+
+    private static final String ROOT_PATH = System.getProperty("user.dir");
+
+    private static Email EMAIL = null;
+
     public static void main(String[] args)
     {
         try
@@ -40,17 +57,17 @@ public class Main
                     String destination = canalClient.getDestination();
                     try
                     {
-                        LOGGER.info("## stop the canal client:" + destination);
+                        LOGGER.info(START_FLAG + CANAL_CLIENT_IS_STP + destination);
                         canalClient.stop();
                     }
                     catch (Throwable e)
                     {
                         e.printStackTrace();
-                        LOGGER.error("##something goes wrong when stopping canal:", e);
+                        LOGGER.error(WRONG_TIPS, e);
                     }
                     finally
                     {
-                        LOGGER.info("## " + destination + "canal client is down.");
+                        LOGGER.info(START_FLAG + destination + CANAL_CLIENT_IS_DOWN);
                     }
                 }
             }));
@@ -59,20 +76,23 @@ public class Main
         {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
+            SendMail.sendMails(EMAIL.getFrom(), EMAIL.getPassword(), EMAIL.getSendto(),
+                WRONG_TIPS + "main exception:" + ROOT_PATH, e.getMessage());
         }
+        SendMail.sendMails(EMAIL.getFrom(), EMAIL.getPassword(), EMAIL.getSendto(), ROOT_PATH + CANAL_CLIENT_IS_DOWN,
+            CANAL_CLIENT_IS_END);
     }
 
     private static List<CanalClient> createCanalClients()
     {
         List<CanalClient> clients = new ArrayList<>();
-        String rootPath = System.getProperty("user.dir");
-        String kafkaConf = rootPath + File.separator + "conf" + File.separator + "producer.properties";
-        String filePath = rootPath + File.separator + "conf" + File.separator + "canal-conf.xml";
+        String kafkaConf = ROOT_PATH + File.separator + "conf" + File.separator + "producer.properties";
+        String filePath = ROOT_PATH + File.separator + "conf" + File.separator + "canal-conf.xml";
         Canals canals = analysisXml(filePath);
-
+        EMAIL = canals.getEmails();
         if (!validateConfig(canals))
         {
-            throw new RuntimeException("config error:please check config file!");
+            throw new RuntimeException(CONFIG_ERROR);
         }
 
         if ("simple".equals(canals.getPattern()))
@@ -163,7 +183,7 @@ public class Main
         catch (JAXBException e)
         {
             e.printStackTrace();
-            LOGGER.error("xml analysis fail", e);
+            LOGGER.error("xml analysis fail !", e);
         }
         return canals;
     }

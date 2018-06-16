@@ -52,3 +52,11 @@ Thumbs.db
 
 # backup files
 *.bak
+.svn/
+test-output/
+tmp
+temp
+*.log
+antx.properties
+otter.properties
+jtester.properties
