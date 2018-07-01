@@ -33,7 +33,7 @@ public class KafkaConsumer implements Runnable
         properties.put("bootstrap.servers", "127.0.0.1:9092");
         properties.put("group.id", GROUP_ID);
         //是否自动提交 true为自动提交
-        properties.put("enable.auto.commit", "true");
+        properties.put("enable.auto.commit", "false");
         //自动提交时间间隔
         properties.put("auto.commit.interval.ms", "1000");
         properties.put("session.timeout.ms", "30000");

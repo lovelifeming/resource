@@ -1,8 +1,8 @@
 #!/bin/bash
 Base_Path=$(readlink -f $(dirname $0))
-OutDir=/data/logs/canal1-log
+OutDir=/data/logs/canal-log
 start_path=bin/startup.sh
-JarName=canal1.jar
+JarName=canal.jar
 Log_File=output.log
 
 $Base_Path/$start_path
@@ -19,6 +19,8 @@ else
 	if [ -f $Base_Path/$JarName ] ; then
 		nohup java -jar $Base_Path/$JarName >> $OutDir/$Log_File 2>&1 &
 		echo "$JarName is started ~~~"
+	else
+	    echo "$JarName isn't exist ~~~"
 	fi
 fi
 

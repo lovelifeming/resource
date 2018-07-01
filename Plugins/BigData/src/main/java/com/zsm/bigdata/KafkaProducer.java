@@ -34,7 +34,9 @@ public class KafkaProducer implements Runnable
         properties.put("acks", "all");
         properties.put("group.id", "groupA");
         // retries：配置为大于0的值的话，客户端会在消息发送失败时重新发送
-        properties.put("retries", 0);
+        properties.put("retries", 3);
+        properties.put("reconnect.backoff.ms ", 20000);
+        properties.put("retry.backoff.ms", 20000);
         //batch.size:当多条消息需要发送到同一个分区时，生产者会尝试合并网络请求以提高client和生产者的效率。
         properties.put("batch.size", 16384);
         //key.serializer: 键序列化，默认org.apache.kafka.common.serialization.StringDeserializer

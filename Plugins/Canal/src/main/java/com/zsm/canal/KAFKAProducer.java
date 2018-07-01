@@ -75,6 +75,8 @@ public class KAFKAProducer
         props.put("acks", "all");
         // 发送失败重试的次数 3
         props.put("retries", retries);
+        props.put("reconnect.backoff.ms ", 20000);
+        props.put("retry.backoff.ms", 20000);
         // batch的大小
         props.put("batch.size", 16384);
         // 默认情况即使缓冲区有剩余的空间，也会立即发送请求，设置一段时间用来等待从而将缓冲区填的更多，单位为毫秒，

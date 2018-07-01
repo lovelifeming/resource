@@ -35,7 +35,7 @@ public class KAFKAConsumer
         //指定我们找个消费属于哪个组，consumer的分组id       "test"
         props.put("group.id", groupId);
         //一定要开启kafka的offset自动提交的功能，可以保证我们消费者的数据不丢失
-        props.put("enable.auto.commit", "true");
+        props.put("enable.auto.commit", "false");
         // 每隔1s，自动提交offsets
         props.put("auto.commit.interval.ms", "1000");
         // Consumer向集群发送自己的心跳，超时则认为Consumer已经死了，kafka会把它的分区分配给其他进程
