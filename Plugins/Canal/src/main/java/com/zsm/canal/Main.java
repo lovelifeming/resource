@@ -79,8 +79,6 @@ public class Main
             SendMail.sendMails(EMAIL.getFrom(), EMAIL.getPassword(), EMAIL.getSendto(),
                 WRONG_TIPS + "main exception:" + ROOT_PATH, e.getMessage());
         }
-        SendMail.sendMails(EMAIL.getFrom(), EMAIL.getPassword(), EMAIL.getSendto(), ROOT_PATH + CANAL_CLIENT_IS_DOWN,
-            CANAL_CLIENT_IS_END);
     }
 
     private static List<CanalClient> createCanalClients()
