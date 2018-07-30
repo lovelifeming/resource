@@ -15,7 +15,7 @@
         <module>CollectBinLog</module>
         <module>Canal</module>
         <module>Demo</module>
-        <module>Drool</module>
+        <module>Storm</module>
     </modules>
     <dependencies>
     </dependencies>

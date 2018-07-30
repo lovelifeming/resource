@@ -242,10 +242,13 @@ public class CanalClient
                 putDataToJSON(binLog, rowData, json, data);
             }
             String jsonStr = json.toString();
-
             sendToKafka(databaseName, jsonStr);
             LOGGER.info(jsonStr);
+            json = null;
+            jsonStr = null;
         }
+        binLog = null;
+        list = null;
     }
 
     private static void putDataToJSON(String binLog, CanalEntry.RowData rowData, JSONObject json,

@@ -13,8 +13,13 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,11 +37,7 @@ public class Main
 
     private static final String WRONG_TIPS = "the something goes wrong when stopping canal:";
 
-    private static final String CANAL_CLIENT_IS_STP = "the canal client is stop:";
-
     private static final String CANAL_CLIENT_IS_DOWN = "the canal client is down.";
-
-    private static final String CANAL_CLIENT_IS_END = "the canal is killed or ended";
 
     private static final String START_FLAG = "## ";
 
@@ -48,26 +49,32 @@ public class Main
 
     public static void main(String[] args)
     {
+        String hostAndUser = null;
         try
         {
+            hostAndUser = getLocalHostAndUser();
             List<CanalClient> clients = createCanalClients();
+            String finalHostAndUser = hostAndUser;
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 for (CanalClient canalClient : clients)
                 {
                     String destination = canalClient.getDestination();
+                    String message = ROOT_PATH + " " + CANAL_CLIENT_IS_DOWN;
                     try
                     {
-                        LOGGER.info(START_FLAG + CANAL_CLIENT_IS_STP + destination);
+                        LOGGER.info(START_FLAG + CANAL_CLIENT_IS_DOWN + destination);
                         canalClient.stop();
                     }
                     catch (Throwable e)
                     {
                         e.printStackTrace();
                         LOGGER.error(WRONG_TIPS, e);
+                        message += WRONG_TIPS + " " + getStackTrace(e);
                     }
                     finally
                     {
-                        LOGGER.info(START_FLAG + destination + CANAL_CLIENT_IS_DOWN);
+                        SendMail.sendMails(EMAIL.getFrom(), EMAIL.getPassword(), EMAIL.getSendto(),
+                            finalHostAndUser, message);
                     }
                 }
             }));
@@ -77,7 +84,7 @@ public class Main
             LOGGER.error(e.getMessage());
             e.printStackTrace();
             SendMail.sendMails(EMAIL.getFrom(), EMAIL.getPassword(), EMAIL.getSendto(),
-                WRONG_TIPS + "main exception:" + ROOT_PATH, e.getMessage());
+                hostAndUser + WRONG_TIPS + " Main Exception", ROOT_PATH + "  " + getStackTrace(e));
         }
     }
 
@@ -184,5 +191,37 @@ public class Main
             LOGGER.error("xml analysis fail !", e);
         }
         return canals;
+    }
+
+    private static String getLocalHostAndUser()
+        throws UnknownHostException
+    {
+        InetAddress localHost = InetAddress.getLocalHost();
+        String hostName = localHost.getHostName();
+        String hostAddress = localHost.getHostAddress();
+        return String.format("hostAddress:%s hostName:%s", hostAddress, hostName);
+    }
+
+    public static String getStackTrace(Throwable t)
+    {
+        StringWriter sw = new StringWriter();
+        PrintWriter ps = new PrintWriter(sw);
+        try
+        {
+            t.printStackTrace(ps);
+            return sw.toString();
+        }
+        finally
+        {
+            ps.close();
+            try
+            {
+                sw.close();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }

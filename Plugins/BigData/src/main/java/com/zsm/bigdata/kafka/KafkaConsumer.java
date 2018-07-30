@@ -1,4 +1,4 @@
-package com.zsm.bigdata;
+package com.zsm.bigdata.kafka;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
