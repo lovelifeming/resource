@@ -16,7 +16,7 @@ import java.util.Map;
 
 
 /**
- * Java实现HBase表操作
+ * Java实现HBase表操作,远程连接HBASE需要配置 hbase-site.xml,在集群获取hbase-site.xml配置文件
  * 1.初始化配置；
  * 2.建立数据库连接；
  * 3.获取表；
@@ -55,7 +55,7 @@ public class HBaseOperator
             conn = ConnectionFactory.createConnection(conf);
             // 创建一个数据库管理员
             HBaseAdmin admin = (HBaseAdmin)conn.getAdmin();
-            if (admin.tableExists(tableName))
+            if (admin.tableExists(TableName.valueOf(tableName)))
             {
                 return false;
             }
@@ -347,7 +347,7 @@ public class HBaseOperator
             // 创建一个数据库管理员
             HBaseAdmin admin = (HBaseAdmin)conn.getAdmin();
             // 删除一个表的指定列族
-            admin.deleteColumn(tableName, columnFaily);
+            admin.deleteColumnFamily(TableName.valueOf(tableName),columnFaily.getBytes());
             return true;
         }
         catch (IOException e)
@@ -374,12 +374,12 @@ public class HBaseOperator
         {
             conn = ConnectionFactory.createConnection(conf);
             HBaseAdmin admin = (HBaseAdmin)conn.getAdmin();
-            if (admin.tableExists(tableName))
+            if (admin.tableExists(TableName.valueOf(tableName)))
             {
                 // 失效表
-                admin.disableTable(tableName);
+                admin.disableTable(TableName.valueOf(tableName));
                 // 失效表
-                admin.deleteTable(tableName);
+                admin.deleteTable(TableName.valueOf(tableName));
                 return true;
             }
             else

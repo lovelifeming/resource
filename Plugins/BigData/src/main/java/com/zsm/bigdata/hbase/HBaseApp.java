@@ -89,10 +89,10 @@ public class HBaseApp
 
         Connection conn = ConnectionFactory.createConnection(conf);
         HBaseAdmin admin = (HBaseAdmin)conn.getAdmin();
-        if (admin.tableExists(tableName))
+        if (admin.tableExists(TableName.valueOf(tableName)))
         {
-            admin.disableTable(tableName);
-            admin.deleteTable(tableName);
+            admin.disableTable(TableName.valueOf(tableName));
+            admin.deleteTable(TableName.valueOf(tableName));
         }
         // 创建表描述
         HTableDescriptor tableDesc = new HTableDescriptor(TableName.valueOf(tableName));

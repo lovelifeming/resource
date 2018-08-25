@@ -15,6 +15,7 @@
         <module>CollectBinLog</module>
         <module>Canal</module>
         <module>Demo</module>
+        <module>HDFS</module>
         <module>Storm</module>
     </modules>
     <dependencies>

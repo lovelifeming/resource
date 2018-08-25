@@ -27,7 +27,7 @@ public class HDFSFileOperator
     private static final int BUFFER_SIZE = 4096;
 
     //服务器上运行不带IP地址，使用   "";     "hdfs://127.0.0.1:8020";
-    private static String HDFS_URI = "hdfs://58.16.67.200:8020";
+    private static String HDFS_URI = "hdfs://127.0.0.1:8020";
 
     private static Configuration configuration = new Configuration();
 
