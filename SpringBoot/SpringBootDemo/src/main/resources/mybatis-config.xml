@@ -8,7 +8,7 @@
     </settings>
 
     <typeAliases>
-        <package name="com.gcjcpt.bean"/>
+        <package name="com.zsm.sb.model"/>
     </typeAliases>
 
     <plugins>
