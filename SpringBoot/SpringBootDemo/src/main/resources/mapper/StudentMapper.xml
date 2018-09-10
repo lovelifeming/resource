@@ -16,6 +16,12 @@
     id, user_no, user_name, password, user_sex, user_birthday, user_class, createtime,
     updatetime
   </sql>
+
+    <!-- 模糊查询： 1.name LIKE '%${name}%'     2."%"#{name}"%"
+        3.name LIKE CONCAT(CONCAT('%',#{name},'%'))
+        4.<bind name="pattern1" value="'%' + _parameter.name + '%'" />   name LIKE #{pattern1}
+    -->
+
     <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
