@@ -20,6 +20,19 @@ import java.util.Map;
  * 502 网关错误
  * 503 Service Unavailable
  * 504 网关超时
+ * 404	SERVICE_NOT_EXIST	服务未发现
+ * 405	HTTP_ACTION_UNSUPPORTED	服务不支持该HTTP协议动词
+ * 406	VERSION_MISSING	服务版本错误
+ * 407	METHOD_MISSING	服务方法错误
+ * 408	ACCESSTOKEN_MISSING	参数AccessToken无效或者已经过期
+ * 409	APPKEY_MISSING	参数AppKey错误
+ * 410	SECRETKEY_MISSING	参数SecretKey错误
+ * 500	SERVICE_UNAVAILABLE	服务不可用
+ * 503	REJECTED_SERVICE	系统过载,拒绝服务
+ * 504	SERVICE_TIMEOUT	访问超时
+ * 505	INVOKETIMES_EXCEED	服务访问次数受限
+ * 506	INVALID_PERMISSION	服务访问权限未开放
+ * 508	SERVICE_UNAVAILABLE	接入服务不可用
  * <p>
  * 控制层消息返回类
  */
