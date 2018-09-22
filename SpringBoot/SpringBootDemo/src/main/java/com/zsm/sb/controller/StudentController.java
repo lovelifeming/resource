@@ -2,6 +2,7 @@ package com.zsm.sb.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zsm.sb.model.ConfigBean;
+import com.zsm.sb.model.ReturnMsg;
 import com.zsm.sb.model.Student;
 import com.zsm.sb.service.StudentService;
 import io.swagger.annotations.Api;
@@ -10,11 +11,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
@@ -95,5 +94,25 @@ public class StudentController
         json.put("result", "1");
 
         return json.toString();
+    }
+
+    @ApiOperation(value = "根据username查找", notes = "查询数据库中某个的用户信息")
+    @ApiImplicitParam(name = "name", value = "用户名字", paramType = "path", required = true, dataType = "String")
+    @RequestMapping(value = "json/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ReturnMsg UserJSONInfo(@PathVariable String name)
+    {
+        System.out.println(configBean.getName());
+        Student student = studentService.selectStudentByName(name);
+        return ReturnMsg.generatorSuccessMsg(student);
+    }
+
+    @ApiOperation(value = "根据username查找", notes = "查询数据库中某个的用户信息")
+    @ApiImplicitParam(name = "name", value = "用户名字", paramType = "path", required = true, dataType = "String")
+    @RequestMapping(value = "xml/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
+    public ReturnMsg UserXMLInfo(@PathVariable String name)
+    {
+        System.out.println(configBean.getName());
+        Student student = studentService.selectStudentByName(name);
+        return ReturnMsg.generatorSuccessMsg(student);
     }
 }

@@ -1,24 +1,33 @@
 package com.zsm.sb.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.Date;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+//使用原始字段(大小写，名称)，禁用自动大小写驼峰命令
+@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.ANY, getterVisibility= JsonAutoDetect.Visibility.NONE)
 public class Student {
+    @XmlElement(name = "序号")
     private Integer id;
-
+    @XmlElement(name = "编号")
     private String user_no;
-
+    @XmlElement(name = "名称")
     private String user_name;
-
+    @XmlElement(name = "密码")
     private String password;
-
+    @XmlElement(name = "性别")
     private String user_sex;
-
+    @XmlElement(name = "生日")
     private Date user_birthday;
-
+    @XmlElement(name = "班级")
     private String user_class;
-
+    @XmlElement(name = "创建时间")
     private Date createtime;
-
+    @XmlElement(name = "更新时间")
     private Date updatetime;
 
     public Integer getId() {

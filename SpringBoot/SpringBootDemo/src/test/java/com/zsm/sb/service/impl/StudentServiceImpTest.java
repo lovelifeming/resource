@@ -1,9 +1,7 @@
-package com.zsm.sb.service.imp;
+package com.zsm.sb.service.impl;
 
 import com.zsm.sb.model.Student;
-import com.zsm.sb.service.imp.StudentServiceImp;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class StudentServiceImpTest
 {
     @Autowired
-    private StudentServiceImp studentServiceImp;
+    private StudentServiceImpl studentServiceImp;
 
     @Test
     public void selectByName()

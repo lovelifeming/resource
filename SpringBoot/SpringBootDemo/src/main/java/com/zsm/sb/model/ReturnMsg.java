@@ -1,7 +1,13 @@
 package com.zsm.sb.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import io.swagger.annotations.Api;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
 
 /**
@@ -36,92 +42,53 @@ import java.util.Map;
  * <p>
  * 控制层消息返回类
  */
-public class ReturnMsg
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "root")
+@Api(description = "消息返回对象")
+public class ReturnMsg<T>
 {
-    // 状态码 true成功 false失败
-    private boolean success;
+    public static <T> ReturnMsg<T> generatorSuccessMsg(T data)
+    {
+        return generatorMsg(data, "", 202);
+    }
 
-    //状态提示信息,用于错误信息提示
+    public static <T> ReturnMsg<T> generatorSuccessMsg(T data, String message)
+    {
+        return generatorMsg(data, message, 202);
+    }
+
+    public static <T> ReturnMsg<T> generatorFailMsg(String message, Integer code)
+    {
+        return generatorMsg((T)"", message, code);
+    }
+
+    public static <T> ReturnMsg<T> generatorMsg(T data, String message, Integer code)
+    {
+        ReturnMsg<T> msg = new ReturnMsg<>();
+        msg.setData(data);
+        msg.setMessage(message);
+        msg.setCode(code.toString());
+        return msg;
+    }
+
+    @XmlElement(name = "code")
+    private String code;
+
+    @XmlElement(name = "message")
     private String message;
 
-    //返回的数据，可以是JSON，Map
-    private Map<String, Object> data = new HashMap<>();
+    @JacksonXmlElementWrapper(localName = "datas")
+    @JacksonXmlProperty(localName = "data")
+    private T data;
 
-    public static ReturnMsg success()
+    public String getCode()
     {
-        return getReturnMsg(true, "request success!", new HashMap<>());
+        return code;
     }
 
-    public static ReturnMsg success(String message)
+    public void setCode(String code)
     {
-        return getReturnMsg(true, message, new HashMap<>());
-    }
-
-    public static ReturnMsg success(Map<String, Object> data)
-    {
-        return getReturnMsg(true, "request success!", data);
-    }
-
-    public static ReturnMsg success(String message, Map<String, Object> data)
-    {
-        return getReturnMsg(true, message, data);
-    }
-
-    public static ReturnMsg fail()
-    {
-        return getReturnMsg(false, "request fail!", new HashMap<>());
-    }
-
-    public static ReturnMsg fail(String message)
-    {
-        return getReturnMsg(false, message, new HashMap<>());
-    }
-
-    public static ReturnMsg fail(Map<String, Object> data)
-    {
-        return getReturnMsg(false, "request fail!", data);
-    }
-
-    public static ReturnMsg fail(String message, Map<String, Object> data)
-    {
-        return getReturnMsg(false, message, data);
-    }
-
-    public static ReturnMsg getReturnMsg(boolean success, String message, Map<String, Object> data)
-    {
-        ReturnMsg result = new ReturnMsg();
-        result.setSuccess(success);
-        result.setMessage(message);
-        result.setData(data);
-        return result;
-    }
-
-    public ReturnMsg add(String key, Object value)
-    {
-        this.getData().put(key, value);
-        return this;
-    }
-
-    public ReturnMsg modifyMsg(Map<String, Object> data)
-    {
-        this.setData(data);
-        return this;
-    }
-
-    public ReturnMsg modifyMsg(String message)
-    {
-        this.setMessage(message);
-        return this;
-    }
-
-    public boolean isSuccess()
-    {
-        return success;
-    }
-
-    public void setSuccess(boolean success)
-    {
-        this.success = success;
+        this.code = code;
     }
 
     public String getMessage()
@@ -134,12 +101,12 @@ public class ReturnMsg
         this.message = message;
     }
 
-    public Map<String, Object> getData()
+    public T getData()
     {
         return data;
     }
 
-    public void setData(Map<String, Object> data)
+    public void setData(T data)
     {
         this.data = data;
     }

@@ -1,9 +1,10 @@
-package com.zsm.sb.service.imp;
+package com.zsm.sb.service.impl;
 
 import com.zsm.sb.dao.StudentMapper;
 import com.zsm.sb.model.Student;
 import com.zsm.sb.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,9 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
  * @Date:Created in 2018/4/10.
  * @Modified By:
  */
-@Service
+@Component
 //@Transactional
-public class StudentServiceImp implements StudentService
+public class StudentServiceImpl implements StudentService
 {
     @Autowired
     private StudentMapper studentMapper;
