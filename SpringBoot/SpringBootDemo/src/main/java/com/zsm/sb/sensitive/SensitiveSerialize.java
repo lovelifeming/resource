@@ -27,6 +27,11 @@ public class SensitiveSerialize extends JsonSerializer<String> implements Contex
     {
         switch (this.type)
         {
+            case PASSWORD:
+            {
+                gen.writeString(SensitiveInfoUtils.password(value));
+                break;
+            }
             case CHINESE_NAME:
             {
                 gen.writeString(SensitiveInfoUtils.chineseName(value));

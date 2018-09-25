@@ -15,6 +15,15 @@ public class SensitiveInfoUtils
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(SensitiveInfoUtils.class);
 
+    public static String password(String pwd)
+    {
+        if (StringUtils.isBlank(pwd))
+        {
+            return "******";
+        }
+        return StringUtils.repeat("*",pwd.length());
+    }
+
     public static String address(String address, int sensitiveSize)
     {
         if (StringUtils.isBlank(address))

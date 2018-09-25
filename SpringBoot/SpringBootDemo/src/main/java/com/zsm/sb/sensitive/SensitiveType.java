@@ -9,6 +9,10 @@ package com.zsm.sb.sensitive;
 public enum SensitiveType
 {
     /**
+     * 密码
+     */
+    PASSWORD,
+    /**
      * 证件号
      */
     ID_CARD,

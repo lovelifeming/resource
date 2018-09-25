@@ -7,6 +7,7 @@ import com.zsm.sb.model.Student;
 import com.zsm.sb.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -41,7 +42,7 @@ public class StudentController
     private ConfigBean configBean;
 
     @ApiOperation(value = "根据username查找", notes = "查询数据库中某个的用户信息")
-    @ApiImplicitParam(name = "name", value = "用户名字", paramType = "path", required = true, dataType = "String")
+    @ApiImplicitParam(name = "name", value = "用户名字", paramType = "path", required = true, dataType = "String", example = "李晓明")
     @RequestMapping("find")
     public String selectTestInfo(String name)
     {
@@ -97,7 +98,7 @@ public class StudentController
     }
 
     @ApiOperation(value = "根据username查找", notes = "查询数据库中某个的用户信息")
-    @ApiImplicitParam(name = "name", value = "用户名字", paramType = "path", required = true, dataType = "String")
+    @ApiImplicitParam(name = "name", value = "李晓明", paramType = "path", required = true, dataType = "String")
     @RequestMapping(value = "json/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ReturnMsg UserJSONInfo(@PathVariable String name)
     {
@@ -107,7 +108,7 @@ public class StudentController
     }
 
     @ApiOperation(value = "根据username查找", notes = "查询数据库中某个的用户信息")
-    @ApiImplicitParam(name = "name", value = "用户名字", paramType = "path", required = true, dataType = "String")
+    @ApiImplicitParams(@ApiImplicitParam(name = "name", value = "李晓明", paramType = "path", required = true, dataType = "String"))
     @RequestMapping(value = "xml/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
     public ReturnMsg UserXMLInfo(@PathVariable String name)
     {
