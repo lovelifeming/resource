@@ -52,12 +52,6 @@
             <version>1.27.0.0</version>
         </dependency>
 
-        <!--<dependency>
-            <groupId>com.fsnip</groupId>
-            <artifactId>fastdfs</artifactId>
-            <version>1.0</version>
-        </dependency>-->
-
         <!--KAFKA-->
         <dependency>
             <groupId>org.apache.kafka</groupId>
