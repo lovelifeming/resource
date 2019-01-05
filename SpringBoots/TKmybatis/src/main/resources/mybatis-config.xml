@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 开启驼峰自动映射   user_id    userId-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 二级缓存的总开关，被redis替代 -->
+        <setting name="cacheEnabled" value="true"/>
+        <!-- 开启懒加载 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+    <typeAliases>
+        <package name="com.zsm.tk.pojo"/>
+    </typeAliases>
+    <plugins>
+        <plugin interceptor="com.jwwlcc.bigdata.mybatis.interceptor.CommonDataInterceptor">
+            <property name="gmtCreate" value="gmt_create"/>
+            <property name="gmtUpdate" value="gmt_modified"/>
+            <property name="gmtModified" value="gmt_modified"/>
+        </plugin>
+    </plugins>
+</configuration>
