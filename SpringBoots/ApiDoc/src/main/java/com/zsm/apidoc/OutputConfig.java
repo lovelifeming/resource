@@ -1,6 +1,8 @@
 package com.zsm.apidoc;
 
 /**
+ * 输出参数配置类
+ *
  * @Author: zengsm.
  * @Description:
  * @Date:Created in 2019/1/4 11:56.
@@ -8,4 +10,9 @@ package com.zsm.apidoc;
  */
 public class OutputConfig
 {
+    private String outputFile;
+
+    private boolean isTitle;
+
+    private String[] titles;
 }

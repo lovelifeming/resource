@@ -13,6 +13,7 @@
     <modules>
         <module>SpringBootDemo</module>
         <module>TKmybatis</module>
+        <module>ApiDoc</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

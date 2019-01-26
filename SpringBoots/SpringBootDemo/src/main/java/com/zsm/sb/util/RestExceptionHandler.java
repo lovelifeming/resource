@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
@@ -19,13 +21,14 @@ import java.sql.SQLException;
  * @Date:Created in 2018/9/20.
  * @Modified By:
  */
-@ControllerAdvice(annotations = RestController.class)
-public class RestExceptionHandler
+//@ControllerAdvice(annotations = RestController.class)
+@RestControllerAdvice
+public class RestExceptionHandler // extends ResponseEntityExceptionHandler
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestExceptionHandler.class);
 
     @ExceptionHandler(SQLException.class)
-    @ResponseBody
+    //@ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     private <T> ReturnMsg<T> sqlExceptionHandler(HttpServletRequest request, SQLException e)
     {
@@ -34,7 +37,7 @@ public class RestExceptionHandler
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseBody
+    //@ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     private <T> ReturnMsg<T> methodArgumentNotValidExceptionHandler(HttpServletRequest request,
                                                                     MethodArgumentNotValidException e)
@@ -44,7 +47,7 @@ public class RestExceptionHandler
     }
 
     @ExceptionHandler(NotFoundException.class)
-    @ResponseBody
+    //@ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     private <T> ReturnMsg<T> notFoundExceptionHandler(HttpServletRequest request, NotFoundException e)
     {
@@ -53,7 +56,7 @@ public class RestExceptionHandler
     }
 
     @ExceptionHandler(SystemException.class)
-    @ResponseBody
+    //@ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     private <T> ReturnMsg<T> systemExceptionHandler(HttpServletRequest request, SystemException e)
     {
@@ -62,7 +65,7 @@ public class RestExceptionHandler
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseBody
+    //@ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     private <T> ReturnMsg<T> exceptionHandler(HttpServletRequest request, Exception e)
     {

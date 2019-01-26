@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -21,8 +22,53 @@ import java.util.ArrayList;
  */
 public class AnalysisFile
 {
+
+    public static ArrayList<String> TABLE_NAME = new ArrayList<>();
+
+    public static String[] recursionAllFiles(String dirPath, FilenameFilter filter)
+    {
+        ArrayList<String> files = new ArrayList<>();
+        File file = new File(dirPath);
+        if (file.isFile())
+        {
+            files.add(file.getName());
+            return files.toArray(new String[files.size()]);
+        }
+        else if (file.isDirectory())
+        {
+            recursionAllFiles(file, files, filter);
+            return files.toArray(new String[files.size()]);
+        }
+        return new String[] {"There is problem with the file path entered!"};
+    }
+
+    private static List<String> recursionAllFiles(File file, List<String> data, FilenameFilter filter)
+    {
+        if (!file.exists())
+        {
+            return data;
+        }
+        File[] fileList = file.listFiles(filter);
+        for (File f : fileList)
+        {
+            if (f.isDirectory())
+            {
+                recursionAllFiles(f, data, filter);
+            }
+            else
+            {
+                data.add(f.getName());
+            }
+        }
+        if (file.isFile())
+        {
+            data.add(file.getName());
+        }
+        return data;
+    }
+
     /**
-     * 解析 .java文件，输出数据字典文件
+     * 解析 .java文件入口，输出数据字典文件
      *
      * @param filePath
      * @param outputFile
@@ -30,14 +76,14 @@ public class AnalysisFile
      * @return
      * @throws IOException
      */
-    public static String analysisJavaFile(String filePath, String outputFile, String[] titles)
+    public static List<ClassInfo> analysisJavaFile(String filePath, String outputFile, String[] titles)
         throws IOException
     {
         ArrayList<ClassInfo> classInfos = new ArrayList<>();
         File file = new File(filePath);
         if (!file.exists())
         {
-            return "not find file or directory!";
+            new RuntimeException("This file path was not found or does not exist!");
         }
         if (file.isFile() && filePath.endsWith(".java"))
         {
@@ -55,18 +101,25 @@ public class AnalysisFile
         }
         else
         {
-            return "the filePath is not find file or directory!";
+            new RuntimeException("This file path was not found or does not exist!");
         }
         //输出到excel文件
-        writeToExcel(classInfos, outputFile, titles);
-        return "analysis success: " + filePath;
+        //writeToExcel(classInfos, outputFile, titles);
+        return classInfos;
     }
 
-    private static void analysisJavaFile(ArrayList<ClassInfo> classInfos, File f)
+    /**
+     * 解析java 文件
+     *
+     * @param classInfos 类信息包装类
+     * @param file       解析文件
+     * @throws IOException
+     */
+    private static void analysisJavaFile(ArrayList<ClassInfo> classInfos, File file)
         throws IOException
     {
         String line;
-        BufferedReader reader = new BufferedReader(new FileReader(f));
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         ClassInfo dic = new ClassInfo();
         //缓存行信息
         String[] before = {"", "", "", "", "", ""};
@@ -107,6 +160,13 @@ public class AnalysisFile
         }
     }
 
+    /**
+     * 解析字段名、类型、注解、注释信息
+     *
+     * @param line   行字符串
+     * @param before 当前行以前的行字符串数组
+     * @return
+     */
     private static Field analysisFieldInfo(String line, String[] before)
     {
         Field field = new Field();
@@ -132,6 +192,13 @@ public class AnalysisFile
         return field;
     }
 
+    /**
+     * 解析类名、类注解、类注释信息
+     *
+     * @param line   行字符串
+     * @param dic    类信息字典
+     * @param before 当前行以前的行字符串数组
+     */
     private static void analysisClassInfo(String line, ClassInfo dic, String[] before)
     {
         String substring = line.substring(line.indexOf(" class ") + 7);
@@ -155,6 +222,14 @@ public class AnalysisFile
         }
     }
 
+    /**
+     * 合并段注释，将多行注释合并成一行注释
+     *
+     * @param reader 阅读器
+     * @param sum    注释行
+     * @return
+     * @throws IOException
+     */
     private static String combineComments(BufferedReader reader, String sum)
         throws IOException
     {
@@ -176,6 +251,12 @@ public class AnalysisFile
         return sum;
     }
 
+    /**
+     * 移动行字符串，游标每向前读一行，字符串数组全部需要向前移动一行
+     *
+     * @param before 当前行以前的行字符串数组
+     * @param sum    注释字符串
+     */
     private static void moveLines(String[] before, String sum)
     {
         before[5] = before[4];
@@ -186,6 +267,12 @@ public class AnalysisFile
         before[0] = sum;
     }
 
+    /**
+     * 解析字段 @Column 信息，填充对应注解名、字段值
+     *
+     * @param field 字段实体
+     * @param names
+     */
     private static void fillFieldValue(Field field, String[] names)
     {
         for (String n : names)
@@ -222,6 +309,13 @@ public class AnalysisFile
         }
     }
 
+    /**
+     * 输出解析结果，将结果写入excel文件内
+     *
+     * @param dataDics   数据字典集合
+     * @param outputFile 输出文件
+     * @param titles     表头
+     */
     public static void writeToExcel(ArrayList<ClassInfo> dataDics, String outputFile, String[] titles)
     {
         //创建excel工作簿
