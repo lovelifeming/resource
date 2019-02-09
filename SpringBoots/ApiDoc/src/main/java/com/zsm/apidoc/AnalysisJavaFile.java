@@ -20,11 +20,8 @@ import java.util.List;
  * @Date:Created in 2019/1/4 10:32.
  * @Modified By:
  */
-public class AnalysisFile
+public class AnalysisJavaFile
 {
-
-    public static ArrayList<String> TABLE_NAME = new ArrayList<>();
-
     public static String[] recursionAllFiles(String dirPath, FilenameFilter filter)
     {
         ArrayList<String> files = new ArrayList<>();
@@ -104,7 +101,7 @@ public class AnalysisFile
             new RuntimeException("This file path was not found or does not exist!");
         }
         //输出到excel文件
-        //writeToExcel(classInfos, outputFile, titles);
+        writeToExcel(classInfos, outputFile, titles);
         return classInfos;
     }
 

@@ -59,4 +59,4 @@ temp
 *.log
 antx.properties
 otter.properties
-jtester.properties
+.mvn/
