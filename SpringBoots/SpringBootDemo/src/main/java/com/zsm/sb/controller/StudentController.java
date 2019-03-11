@@ -17,9 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
+import java.util.Enumeration;
 
 
 /**
@@ -46,7 +48,6 @@ public class StudentController
     @RequestMapping("find")
     public String selectTestInfo(String name)
     {
-        System.out.println(name);
         System.out.println(configBean.getName());
         return studentService.selectStudentByName(name).toString();
     }
@@ -84,8 +85,7 @@ public class StudentController
 
     @RequestMapping(value = "toLogin", method = RequestMethod.POST)
     @ResponseBody
-    public String SigningIn(HttpServletRequest request, HttpServletResponse response)
-        throws IOException
+    public String signingIn(HttpServletRequest request, HttpServletResponse response)
     {
         Student student = new Student();
         student.setUser_name(request.getParameter("userName"));
@@ -100,7 +100,7 @@ public class StudentController
     @ApiOperation(value = "根据username查找", notes = "查询数据库中某个的用户信息")
     @ApiImplicitParam(name = "name", value = "李晓明", paramType = "path", required = true, dataType = "String")
     @RequestMapping(value = "json/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ReturnMsg UserJSONInfo(@PathVariable String name)
+    public ReturnMsg userJSONInfo(@PathVariable String name)
     {
         System.out.println(configBean.getName());
         Student student = studentService.selectStudentByName(name);
@@ -110,10 +110,53 @@ public class StudentController
     @ApiOperation(value = "根据username查找", notes = "查询数据库中某个的用户信息")
     @ApiImplicitParams(@ApiImplicitParam(name = "name", value = "李晓明", paramType = "path", required = true, dataType = "String"))
     @RequestMapping(value = "xml/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
-    public ReturnMsg UserXMLInfo(@PathVariable String name)
+    public ReturnMsg userXMLInfo(@PathVariable String name)
     {
         System.out.println(configBean.getName());
         Student student = studentService.selectStudentByName(name);
         return ReturnMsg.generatorSuccessMsg(student);
+    }
+
+    @ApiOperation(value = "获取Cookie", notes = "跨域设置Cookie")
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ReturnMsg crossDomainSetCookie(HttpServletRequest request, HttpServletResponse response,
+                                          String name, String value)
+    {
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        response.setHeader("Access-Control-Max-Age", "0");
+        String allowHeaders = "Origin, No-Cache, X-Requested-With, If-Modified-Since,Pragma, Last-Modified, " +
+                              "Cache-Control,Expires, Content-Type,X-E4M-With,userId,token,Access-Control-Allow-Headers";
+        response.setHeader("Access-Control-Allow-Headers", allowHeaders);
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("XDomainRequestAllowed", "1");
+        response.setHeader("Content-Type", "application/json;charset=UTF-8");
+
+        Cookie cookie = new Cookie(name, value);
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/student");
+        cookie.setDomain("zsm.com");
+        cookie.setVersion(1);
+        cookie.setComment("测试设置cookie");
+        cookie.setSecure(true);
+        response.addCookie(cookie);
+
+        Cookie[] cookies = request.getCookies();
+        for (Cookie c : cookies)
+        {
+            System.out.println("CookieName:" + c.getName() + " CookieValue:" + c.getValue());
+        }
+
+        HttpSession session = request.getSession();
+        Enumeration<String> attributeNames = session.getAttributeNames();
+        while (attributeNames.hasMoreElements())
+        {
+            String element = attributeNames.nextElement();
+            System.out.println(element);
+        }
+        int status = response.getStatus();
+        System.out.println("the response status is:" + status);
+        return ReturnMsg.generatorSuccessMsg("success");
     }
 }

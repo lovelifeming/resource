@@ -26,7 +26,6 @@ public class StudentServiceImpTest
 
     @Test
     public void selectByName()
-        throws Exception
     {
         Student student = studentServiceImp.selectStudentByName("陆君");
 
