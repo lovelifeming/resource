@@ -145,7 +145,7 @@ public class StudentController
         Cookie[] cookies = request.getCookies();
         for (Cookie c : cookies)
         {
-            System.out.println("CookieName:" + c.getName() + " CookieValue:" + c.getValue());
+            System.out.println("CookieName: " + c.getName() + "  CookieValue: " + c.getValue());
         }
 
         HttpSession session = request.getSession();
@@ -155,8 +155,18 @@ public class StudentController
             String element = attributeNames.nextElement();
             System.out.println(element);
         }
+        try
+        {
+            String authType = request.getAuthType();
+            System.out.println("auth type is:" + authType);
+        }
+        catch (Exception e)
+        {
+            System.out.println("exception message:" + e.getMessage());
+        }
+
         int status = response.getStatus();
         System.out.println("the response status is:" + status);
-        return ReturnMsg.generatorSuccessMsg("success");
+        return ReturnMsg.generatorSuccessMsg(request.getParameter("data"));
     }
 }

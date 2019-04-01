@@ -110,4 +110,14 @@ public class ReturnMsg<T>
     {
         this.data = data;
     }
+
+    @Override
+    public String toString()
+    {
+        return "ReturnMsg{" +
+               "code='" + code + '\'' +
+               ", message='" + message + '\'' +
+               ", data=" + data +
+               '}';
+    }
 }
