@@ -1,4 +1,4 @@
-package com.zsm.apidoc;
+package com.zsm.analysisfile.javafile;
 
 /**
  * 输出参数配置类

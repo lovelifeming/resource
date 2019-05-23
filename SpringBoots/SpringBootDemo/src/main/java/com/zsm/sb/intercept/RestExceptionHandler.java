@@ -1,4 +1,4 @@
-package com.zsm.sb.util;
+package com.zsm.sb.intercept;
 
 import com.zsm.sb.model.ReturnMsg;
 import org.apache.ibatis.javassist.NotFoundException;

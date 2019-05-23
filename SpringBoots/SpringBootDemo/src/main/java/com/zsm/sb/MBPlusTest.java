@@ -2,12 +2,12 @@ package com.zsm.sb;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
-import com.baomidou.mybatisplus.generator.config.PackageConfig;
-import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -25,7 +25,7 @@ public class MBPlusTest
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         //gc.setOutputDir("D:\\workspace\\SpringBoot\\src\\main\\java");//将代码生成在项目中
-        gc.setOutputDir("D:\\SpringBoot");//将代码生成在指定目录中
+        gc.setOutputDir(System.getProperty("user.dir") + "/src/main/java");//将代码生成在指定目录中
         gc.setFileOverride(true);
         gc.setActiveRecord(false);  // 不需要ActiveRecord特性的请改为false
         gc.setEnableCache(false);   // XML 二级缓存
@@ -44,6 +44,7 @@ public class MBPlusTest
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
+        //设置数据库类型
         dsc.setDbType(DbType.MYSQL);
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
@@ -53,13 +54,33 @@ public class MBPlusTest
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
+        // strategy.setCapitalMode(true);   // 全局大写命名 ORACLE 注意
         strategy.setTablePrefix(new String[] {"tb_"});       // 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);  // 表名生成策略
         strategy.setInclude(new String[] {"tb_user", "tb_order"}); // 需要生成的表
+        // strategy.setExclude(new String[]{"tb_test"});   // 排除生成的表
 
-        strategy.setSuperServiceClass(null);
+        strategy.setSuperServiceClass(null);        // 自定义 service 父类
         strategy.setSuperServiceImplClass(null);
         strategy.setSuperMapperClass(null);
+        // 自定义实体父类
+        //strategy.setSuperEntityClass(com.zsm.sb.entity.BaseEntity);
+        // 自定义实体，公共字段
+        //strategy.setSuperEntityColumns(new String[] { "test_id", "userId" });
+        // 自定义 mapper 父类
+        // strategy.setSuperMapperClass("com.zsm.sb.mapper.BaseMapper");
+        // 自定义 service 父类
+        // strategy.setSuperServiceClass("com.zsm.sb.service.BaseService");
+        // 自定义 service 实现类父类
+        // strategy.setSuperServiceImplClass("com.zsm.sb.service.BaseServiceImpl");
+        // 自定义 controller 父类
+        // strategy.setSuperControllerClass("com.zsm.sb.controller.BaseController");
+        // 实体是否生成字段常量（默认 false）
+        // public static final String ID = "userId";
+        // strategy.setEntityColumnConstant(true);
+        // 实体是否为构建者模型（默认 false）
+        // public User setName(String name) {this.name = name; return this;}
+        //strategy.setEntityBuilderModel(true);
         ag.setStrategy(strategy);
 
         // 生成代码包名配置
@@ -72,6 +93,18 @@ public class MBPlusTest
         pc.setEntity("model");
         pc.setXml("mapper");
         ag.setPackageInfo(pc);
+
+        // 自定义 xxList.jsp 生成
+        List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
+        // focList.add(new FileOutConfig("/template/list.jsp.vm") {
+        // @Override
+        // public String outputFile(TableInfo tableInfo) {
+        // // 自定义输入文件名称
+        // return "D://my_" + tableInfo.getEntityName() + ".jsp";
+        // }
+        // });
+        // cfg.setFileOutConfigList(focList);
+        // mpg.setCfg(cfg);
 
         // 执行生成
         ag.execute();
