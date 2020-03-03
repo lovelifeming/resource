@@ -17,6 +17,8 @@ public class Main
     public static void main(String[] args)
         throws Exception
     {
+        KafkaConsumer consumer=new KafkaConsumer();
+        consumer.r
 
     }
 }

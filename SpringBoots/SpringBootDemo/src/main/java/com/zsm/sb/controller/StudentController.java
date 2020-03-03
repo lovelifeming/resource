@@ -169,4 +169,24 @@ public class StudentController
         System.out.println("the response status is:" + status);
         return ReturnMsg.generatorSuccessMsg(request.getParameter("data"));
     }
+
+    //后端接收 JSONObject
+    //@ApiOperation("设置启信宝监控或查看监控接口")
+    //@RequestMapping(value = "/send",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    //@ApiImplicitParams({@ApiImplicitParam(name="qixinJson",value="JSONObject",required=false)})
+    //public ResponseInfo sendKafka(@RequestBody JSONObject qixinJson) {
+    //    ResponseInfo responseInfo=new ResponseInfo();
+    //    try {
+    //        log.info("kafka的消息={}", qixinJson.toJSONString());
+    //        kafkaTemplate.send("test",qixinJson.toJSONString());
+    //        log.info("发送kafka成功.");
+    //        responseInfo.setStatus(StatusCode.QUERY_SUCCESSFUL.getCode());
+    //        responseInfo.setMessage(StatusCode.QUERY_SUCCESSFUL.getMsg());
+    //        responseInfo.setData("发送kafka成功，消息："+qixinJson.toJSONString());
+    //    } catch (Exception e) {
+    //        log.error("发送kafka失败", e);
+    //        return getErrorResponseInfo(responseInfo, e);
+    //    }
+    //    return responseInfo;
+    //}
 }

@@ -17,6 +17,7 @@
         <module>Demo</module>
         <module>HDFS</module>
         <module>Storm</module>
+        <module>kafka-test</module>
     </modules>
     <dependencies>
     </dependencies>
