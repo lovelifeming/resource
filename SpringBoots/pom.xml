@@ -15,6 +15,7 @@
         <module>SpringBootDemo</module>
         <module>TKmybatis</module>
         <module>ApiDoc</module>
+        <module>jenkins-docker</module>
         <module>validation</module>
     </modules>
     <properties>
