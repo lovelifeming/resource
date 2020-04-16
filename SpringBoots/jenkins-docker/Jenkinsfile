@@ -1,0 +1,69 @@
+pipeline {
+    parameters {
+           booleanParam(name:'NOT_SKIP_BUILD', defaultValue:true, description:'默认true：构建新的镜像;false：跳过镜像构建')
+           booleanParam(name:'UPDATE_TEST', defaultValue:true,description:'默认true：默认更新测试服; false：不更新测试服')
+           booleanParam(name:'UPDATE_FORMUL', defaultValue:false,description:'默认false：默认不更新正式服; true：更新测试服')
+       }
+      environment {
+            BITBUCKET_COMMON_CREDS = credentials('docker-registry-up')
+            RegistryName = 'bigdata03.server.com'
+            ImageName = 'zsm/jenkins-docker'
+            ImageTag = '1.0-SNAPSHOT'
+        }
+    agent any
+    stages {
+        stage('Build') {
+            when {
+                expression { return params.NOT_SKIP_BUILD }
+            }
+            agent {
+                docker {
+                    image 'maven:3-alpine'
+                    args '-v /root/.m2:/root/.m2'
+                }
+            }
+            steps {
+                echo '开始mvn构建镜像...'
+                sh 'cd .'
+                sh 'mvn -B -DskipTests clean package dockerfile:build'
+                echo '镜像构建完成!'
+            }
+        }
+        stage('Push') {
+            when {
+                expression { return params.NOT_SKIP_BUILD }
+            }
+             steps {
+                            echo 'push镜像到私有仓库...'
+                            sh 'docker login -u $BITBUCKET_COMMON_CREDS_USR -p $BITBUCKET_COMMON_CREDS_PSW $RegistryName'
+                            sh 'docker tag $RegistryName/$ImageName:$ImageTag $RegistryName/$ImageName:latest'
+                            sh 'docker push $RegistryName/$ImageName:$ImageTag'
+                            sh 'docker push $RegistryName/$ImageName:latest'
+                            sh 'docker rmi $RegistryName/$ImageName:$ImageTag'
+                            sh 'docker rmi $RegistryName/$ImageName:latest'
+                            echo 'push镜像到私有仓库完成!'
+                        }
+        }
+       stage('Update_Formal') {
+                 when {
+                     expression { return params.UPDATE_FORMUL }
+                 }
+                 steps {
+                     echo '开始更新正式服...'
+                     sh 'ssh root@bigdata02 "/opt/server/zsm/jenkins-remote-shell/jenkins-docker.sh"'
+                     echo '正式服更新完成!'
+                 }
+             }
+             stage('Update_Test') {
+                 when {
+                     expression { return params.UPDATE_TEST }
+                 }
+                 steps {
+                     echo '默认只更新测试服'
+                     echo '开始更新测试服...'
+                     sh 'ssh root@slave02 "/opt/server/zsm/jenkins-remote-shell/jenkins-docker.sh"'
+                     echo '测试服更新完成!'
+                 }
+             }
+            }
+        }
