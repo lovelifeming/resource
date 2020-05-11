@@ -4,6 +4,8 @@ import com.zsm.sb.model.Student;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 @Mapper
 public interface StudentMapper
@@ -21,4 +23,6 @@ public interface StudentMapper
     int updateByPrimaryKey(Student record);
 
     Student selectStudentByName(String name);
+
+    List<Student> getUserInfoList(String name);
 }

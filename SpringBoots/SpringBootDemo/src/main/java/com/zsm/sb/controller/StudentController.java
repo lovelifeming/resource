@@ -5,10 +5,7 @@ import com.zsm.sb.model.ConfigBean;
 import com.zsm.sb.model.ReturnMsg;
 import com.zsm.sb.model.Student;
 import com.zsm.sb.service.StudentService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -45,8 +42,8 @@ public class StudentController
 
     @ApiOperation(value = "根据username查找", notes = "查询数据库中某个的用户信息")
     @ApiImplicitParam(name = "name", value = "用户名字", paramType = "path", required = true, dataType = "String", example = "李晓明")
-    @RequestMapping("find")
-    public String selectTestInfo(String name)
+    @RequestMapping("find/{name}")
+    public String selectTestInfo(@PathVariable String name)
     {
         System.out.println(configBean.getName());
         return studentService.selectStudentByName(name).toString();
@@ -170,23 +167,24 @@ public class StudentController
         return ReturnMsg.generatorSuccessMsg(request.getParameter("data"));
     }
 
-    //后端接收 JSONObject
-    //@ApiOperation("设置启信宝监控或查看监控接口")
-    //@RequestMapping(value = "/send",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    //@ApiImplicitParams({@ApiImplicitParam(name="qixinJson",value="JSONObject",required=false)})
-    //public ResponseInfo sendKafka(@RequestBody JSONObject qixinJson) {
-    //    ResponseInfo responseInfo=new ResponseInfo();
-    //    try {
-    //        log.info("kafka的消息={}", qixinJson.toJSONString());
-    //        kafkaTemplate.send("test",qixinJson.toJSONString());
-    //        log.info("发送kafka成功.");
-    //        responseInfo.setStatus(StatusCode.QUERY_SUCCESSFUL.getCode());
-    //        responseInfo.setMessage(StatusCode.QUERY_SUCCESSFUL.getMsg());
-    //        responseInfo.setData("发送kafka成功，消息："+qixinJson.toJSONString());
-    //    } catch (Exception e) {
-    //        log.error("发送kafka失败", e);
-    //        return getErrorResponseInfo(responseInfo, e);
-    //    }
-    //    return responseInfo;
-    //}
+    @ApiOperation("用户信息提交")
+    @RequestMapping(value = "putUserInfo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiImplicitParams({@ApiImplicitParam(name = "studentInfo", value = "JSONObject", required = true)})
+    public ReturnMsg sendKafka(@RequestBody JSONObject studentInfo)
+    {
+        System.out.println(studentInfo);
+        return ReturnMsg.generatorSuccessMsg(studentInfo);
+    }
+
+    @ApiOperation(value = "用户列表查询", notes = "分页查询数据库中用户信息，模糊匹配")
+    @RequestMapping("list/{name}/{pageNum}/{pageSize}")
+    public ReturnMsg getUserInfoList(@RequestParam(value = "name") @ApiParam("模糊查询用户名") @PathVariable String name,
+                                     @RequestParam(value = "pageNum", defaultValue = "1") @ApiParam("查询页编号")
+                                     @PathVariable Integer pageNum,
+                                     @RequestParam(value = "pageSize", defaultValue = "10") @ApiParam("查询页数据条数")
+                                     @PathVariable Integer pageSize)
+    {
+        System.out.println(configBean.getName());
+        return studentService.getUserInfoList(name, pageNum, pageSize);
+    }
 }

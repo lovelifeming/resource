@@ -149,4 +149,10 @@
         from student
         where user_name = #{name,jdbcType=VARCHAR}
     </select>
+    <select id="getUserInfoList" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from student
+        where user_name LIKE CONCAT(#{name,jdbcType=VARCHAR},'%')
+    </select>
 </mapper>

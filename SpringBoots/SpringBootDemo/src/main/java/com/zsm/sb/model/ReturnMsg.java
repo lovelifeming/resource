@@ -4,6 +4,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -45,50 +47,78 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "root")
 @Api(description = "消息返回对象")
+@ApiModel("返回结果集")
 public class ReturnMsg<T>
 {
+    /**
+     * 请求成功返回
+     */
     public static <T> ReturnMsg<T> generatorSuccessMsg(T data)
     {
-        return generatorMsg(data, "", 202);
+        return generatorMsg(data, "", true, 202);
     }
 
+    /**
+     * 请求成功返回
+     */
     public static <T> ReturnMsg<T> generatorSuccessMsg(T data, String message)
     {
-        return generatorMsg(data, message, 202);
+        return generatorMsg(data, message, true, 202);
     }
 
+    /**
+     * 请求失败返回
+     */
     public static <T> ReturnMsg<T> generatorFailMsg(String message, Integer code)
     {
-        return generatorMsg((T)"", message, code);
+        return generatorMsg((T)"", message, false, code);
     }
 
-    public static <T> ReturnMsg<T> generatorMsg(T data, String message, Integer code)
+    public static <T> ReturnMsg<T> generatorMsg(T data, String message, Boolean success, Integer code)
     {
         ReturnMsg<T> msg = new ReturnMsg<>();
         msg.setData(data);
         msg.setMessage(message);
-        msg.setCode(code.toString());
+        msg.setSuccess(success);
+        msg.setStatusCode(code.toString());
         return msg;
     }
 
-    @XmlElement(name = "code")
-    private String code;
+    @XmlElement(name = "success")
+    @ApiModelProperty("是否成功")
+    private boolean success;
+
+    @XmlElement(name = "statusCode")
+    @ApiModelProperty("状态码")
+    private String statusCode;
 
     @XmlElement(name = "message")
+    @ApiModelProperty("消息提示")
     private String message;
 
     @JacksonXmlElementWrapper(localName = "datas")
     @JacksonXmlProperty(localName = "data")
+    @ApiModelProperty("结果数据")
     private T data;
 
-    public String getCode()
+    public boolean isSuccess()
     {
-        return code;
+        return success;
     }
 
-    public void setCode(String code)
+    public void setSuccess(boolean success)
     {
-        this.code = code;
+        this.success = success;
+    }
+
+    public String getStatusCode()
+    {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode)
+    {
+        this.statusCode = statusCode;
     }
 
     public String getMessage()
@@ -115,7 +145,7 @@ public class ReturnMsg<T>
     public String toString()
     {
         return "ReturnMsg{" +
-               "code='" + code + '\'' +
+               "statusCode='" + statusCode + '\'' +
                ", message='" + message + '\'' +
                ", data=" + data +
                '}';
