@@ -149,6 +149,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.zsm.JDApplication</mainClass>
+                    <layout>ZIP</layout>
+                    <!-- 排除依赖包打包 -->
+                    <includes>
+                        <include>
+                            <groupId>nothing</groupId>
+                            <artifactId>nothing</artifactId>
+                        </include>
+                    </includes>
+                </configuration>
             </plugin>
             <plugin>
                 <!-- 这个插件主要是对打的包解压到dependency目录下 -->
