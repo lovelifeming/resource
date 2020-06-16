@@ -177,7 +177,7 @@ public class StudentController
     }
 
     @ApiOperation(value = "用户列表查询", notes = "分页查询数据库中用户信息，模糊匹配")
-    @RequestMapping("list/{name}/{pageNum}/{pageSize}")
+    @GetMapping("list/{name}/{pageNum}/{pageSize}")
     public ReturnMsg getUserInfoList(@RequestParam(value = "name") @ApiParam("模糊查询用户名") @PathVariable String name,
                                      @RequestParam(value = "pageNum", defaultValue = "1") @ApiParam("查询页编号")
                                      @PathVariable Integer pageNum,
