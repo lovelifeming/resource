@@ -25,11 +25,16 @@ import java.util.Properties;
  * @Date:Created in 2020-05-11 10:15.
  * @Description:
  */
+//表示这个类为一个配置类
 @Configuration
+// 配置mybatis的接口类放的地方
 @MapperScan(basePackages = {"com.zsm.mapper.db1"}, sqlSessionFactoryRef = "db1SqlSessionFactory")
 public class DataSource1Config
 {
+    // 将这个对象放入Spring容器中
     @Bean(name = "db1DataSource")
+    // 读取application.yml 中的配置参数映射成为一个对象
+    // prefix表示参数的前缀
     @ConfigurationProperties(prefix = "spring.datasource.ds1")
     public DataSource setDataSource()
     {
@@ -44,6 +49,7 @@ public class DataSource1Config
     }
 
     @Bean(name = "db1SqlSessionFactory")
+    // @Qualifier表示查找Spring容器中名字为oracleDataSource的对象
     public SqlSessionFactory setSqlSessionFactory(@Qualifier("db1DataSource") DataSource dataSource,
                                                   @Qualifier("db1Configuration") org.apache.ibatis.session.Configuration configuration)
         throws Exception
@@ -52,9 +58,11 @@ public class DataSource1Config
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setConfiguration(configuration);
+        // 设置mybatis的xml所在位置
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(url));
         org.apache.ibatis.session.Configuration config = new org.apache.ibatis.session.Configuration();
         config.setMapUnderscoreToCamelCase(true); // 开启驼峰命名支持
+        config.setLogImpl(org.apache.ibatis.logging.stdout.StdOutImpl.class);   // 开启打印查询 SQL
         bean.setConfiguration(config);
         //格式化sql语句打印
         PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();

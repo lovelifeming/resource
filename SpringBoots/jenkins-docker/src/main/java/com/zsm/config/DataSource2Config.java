@@ -55,6 +55,7 @@ public class DataSource2Config
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(url));
         org.apache.ibatis.session.Configuration config = new org.apache.ibatis.session.Configuration();
         config.setMapUnderscoreToCamelCase(true); // 开启驼峰命名支持
+        config.setLogImpl(org.apache.ibatis.logging.stdout.StdOutImpl.class);
         bean.setConfiguration(config);
         //格式化sql语句打印
         PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
