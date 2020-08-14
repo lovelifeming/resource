@@ -48,35 +48,35 @@ import javax.xml.bind.annotation.XmlElement;
 @JacksonXmlRootElement(localName = "root")
 @Api(description = "消息返回对象")
 @ApiModel("返回结果集")
-public class ReturnMsg<T>
+public class ResultVO<T>
 {
     /**
      * 请求成功返回
      */
-    public static <T> ReturnMsg<T> generatorSuccessMsg(T data)
+    public static <T> ResultVO<T> succes(T data)
     {
-        return generatorMsg(data, "", true, 202);
+        return build(data, "", true, 202);
     }
 
     /**
      * 请求成功返回
      */
-    public static <T> ReturnMsg<T> generatorSuccessMsg(T data, String message)
+    public static <T> ResultVO<T> succes(T data, String message)
     {
-        return generatorMsg(data, message, true, 202);
+        return build(data, message, true, 202);
     }
 
     /**
      * 请求失败返回
      */
-    public static <T> ReturnMsg<T> generatorFailMsg(String message, Integer code)
+    public static <T> ResultVO<T> fail(String message, Integer code)
     {
-        return generatorMsg((T)"", message, false, code);
+        return build((T)"", message, false, code);
     }
 
-    public static <T> ReturnMsg<T> generatorMsg(T data, String message, Boolean success, Integer code)
+    public static <T> ResultVO<T> build(T data, String message, Boolean success, Integer code)
     {
-        ReturnMsg<T> msg = new ReturnMsg<>();
+        ResultVO<T> msg = new ResultVO<>();
         msg.setData(data);
         msg.setMessage(message);
         msg.setSuccess(success);
@@ -144,7 +144,7 @@ public class ReturnMsg<T>
     @Override
     public String toString()
     {
-        return "ReturnMsg{" +
+        return "ResultVO{" +
                "statusCode='" + statusCode + '\'' +
                ", message='" + message + '\'' +
                ", data=" + data +

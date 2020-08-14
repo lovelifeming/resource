@@ -1,6 +1,6 @@
 package com.zsm.sb.service;
 
-import com.zsm.sb.model.ReturnMsg;
+import com.zsm.sb.model.ResultVO;
 import com.zsm.sb.model.Student;
 
 
@@ -15,5 +15,5 @@ public interface StudentService
 {
     Student selectStudentByName(String name);
 
-    ReturnMsg getUserInfoList(String name, Integer pageNum, Integer pageSize);
+    ResultVO getUserInfoList(String name, Integer pageNum, Integer pageSize);
 }

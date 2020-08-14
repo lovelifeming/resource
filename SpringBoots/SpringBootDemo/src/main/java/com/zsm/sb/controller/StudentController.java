@@ -2,7 +2,7 @@ package com.zsm.sb.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zsm.sb.model.ConfigBean;
-import com.zsm.sb.model.ReturnMsg;
+import com.zsm.sb.model.ResultVO;
 import com.zsm.sb.model.Student;
 import com.zsm.sb.service.StudentService;
 import io.swagger.annotations.*;
@@ -97,27 +97,27 @@ public class StudentController
     @ApiOperation(value = "根据username查找", notes = "查询数据库中某个的用户信息")
     @ApiImplicitParam(name = "name", value = "李晓明", paramType = "path", required = true, dataType = "String")
     @RequestMapping(value = "json/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ReturnMsg userJSONInfo(@PathVariable String name)
+    public ResultVO userJSONInfo(@PathVariable String name)
     {
         System.out.println(configBean.getName());
         Student student = studentService.selectStudentByName(name);
-        return ReturnMsg.generatorSuccessMsg(student);
+        return ResultVO.succes(student);
     }
 
     @ApiOperation(value = "根据username查找", notes = "查询数据库中某个的用户信息")
     @ApiImplicitParams(@ApiImplicitParam(name = "name", value = "李晓明", paramType = "path", required = true, dataType = "String"))
     @RequestMapping(value = "xml/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
-    public ReturnMsg userXMLInfo(@PathVariable String name)
+    public ResultVO userXMLInfo(@PathVariable String name)
     {
         System.out.println(configBean.getName());
         Student student = studentService.selectStudentByName(name);
-        return ReturnMsg.generatorSuccessMsg(student);
+        return ResultVO.succes(student);
     }
 
     @ApiOperation(value = "获取Cookie", notes = "跨域设置Cookie")
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ReturnMsg crossDomainSetCookie(HttpServletRequest request, HttpServletResponse response,
-                                          String name, String value)
+    public ResultVO crossDomainSetCookie(HttpServletRequest request, HttpServletResponse response,
+                                         String name, String value)
     {
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
@@ -164,24 +164,24 @@ public class StudentController
 
         int status = response.getStatus();
         System.out.println("the response status is:" + status);
-        return ReturnMsg.generatorSuccessMsg(request.getParameter("data"));
+        return ResultVO.succes(request.getParameter("data"));
     }
 
     @ApiOperation("用户信息提交")
     @RequestMapping(value = "putUserInfo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiImplicitParams({@ApiImplicitParam(name = "studentInfo", value = "JSONObject", required = true)})
-    public ReturnMsg sendKafka(@RequestBody JSONObject studentInfo)
+    public ResultVO sendKafka(@RequestBody JSONObject studentInfo)
     {
         System.out.println(studentInfo);
-        return ReturnMsg.generatorSuccessMsg(studentInfo);
+        return ResultVO.succes(studentInfo);
     }
 
     @ApiOperation(value = "用户列表查询", notes = "分页查询数据库中用户信息，模糊匹配")
     @GetMapping("list/{name}/{pageNum}/{pageSize}")
-    public ReturnMsg getUserInfoList(@RequestParam(value = "name") @ApiParam("模糊查询用户名") @PathVariable String name,
-                                     @RequestParam(value = "pageNum", defaultValue = "1") @ApiParam("查询页编号")
+    public ResultVO getUserInfoList(@RequestParam(value = "name") @ApiParam("模糊查询用户名") @PathVariable String name,
+                                    @RequestParam(value = "pageNum", defaultValue = "1") @ApiParam("查询页编号")
                                      @PathVariable Integer pageNum,
-                                     @RequestParam(value = "pageSize", defaultValue = "10") @ApiParam("查询页数据条数")
+                                    @RequestParam(value = "pageSize", defaultValue = "10") @ApiParam("查询页数据条数")
                                      @PathVariable Integer pageSize)
     {
         System.out.println(configBean.getName());

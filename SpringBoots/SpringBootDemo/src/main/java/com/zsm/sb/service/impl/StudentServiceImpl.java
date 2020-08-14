@@ -3,7 +3,7 @@ package com.zsm.sb.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zsm.sb.dao.StudentMapper;
-import com.zsm.sb.model.ReturnMsg;
+import com.zsm.sb.model.ResultVO;
 import com.zsm.sb.model.Student;
 import com.zsm.sb.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class StudentServiceImpl implements StudentService
     }
 
     @Override
-    public ReturnMsg getUserInfoList(String name, Integer pageNum, Integer pageSize)
+    public ResultVO getUserInfoList(String name, Integer pageNum, Integer pageSize)
     {
         // 开启分页插件,必须紧邻查询语句中间插入其他语句会导致失效,帮助第一个查询语句生成分页语句
         PageHelper.startPage(pageNum, pageSize);
@@ -51,6 +51,6 @@ public class StudentServiceImpl implements StudentService
         List<Student> list = studentMapper.getUserInfoList(name);
         // 封装分页之后的数据返回给客户端展示, PageInfo封装作为一个类,所有分页属性都可以从pageInfo获取
         PageInfo<Student> pageInfo = new PageInfo<>(list);
-        return ReturnMsg.generatorSuccessMsg(pageInfo);
+        return ResultVO.succes(pageInfo);
     }
 }

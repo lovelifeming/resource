@@ -1,6 +1,6 @@
 package com.zsm.sb.controller;
 
-import com.zsm.sb.model.ReturnMsg;
+import com.zsm.sb.model.ResultVO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +60,7 @@ public class StudentControllerTest
         Mockito.when(response.getStatus()).thenReturn(1);
         String value = "e10adc3949ba59abbe56e057f20f883e";
 
-        ReturnMsg msg = studentController.crossDomainSetCookie(request, response, "test", value);
+        ResultVO msg = studentController.crossDomainSetCookie(request, response, "test", value);
         Assert.assertEquals("test", msg.getData());
     }
 }
