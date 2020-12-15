@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&nullCatalogMeansCurrent=true&characterEncoding=utf-8&useUnicode=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  servlet:
+    multipart:
+      resolve-lazily: false
+
+server:
+  port: 8080
+flowable:
+  #关闭定时任务JOB
+  async-executor-activate: false
+  #  将databaseSchemaUpdate设置为true。当Flowable发现库与数据库表结构不一致时，会自动将数据库表结构升级至新版本。
+  database-schema-update: true
+
+#  spring.jpa.properties.hibernate.enable_lazy_load_no_trans=true
+logging:
+  level.root: info
+  level.com.zsm: debug
+  path: ./logs/
+  file: flowable_%d{yyyy-MM-dd}.log
+  file.max-size: 10MB
+  file.max-history: 7
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"

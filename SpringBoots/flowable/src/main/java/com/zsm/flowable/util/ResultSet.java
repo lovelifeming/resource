@@ -1,7 +1,5 @@
-package com.zsm.pojo;
+package com.zsm.flowable.util;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,21 +9,16 @@ import java.io.Serializable;
  * 返回结果集
  */
 @Data
-@ApiModel("返回结果集")
 public class ResultSet<T> implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("是否成功")
     private boolean success;
 
-    @ApiModelProperty("状态码")
     private String statusCode;
 
-    @ApiModelProperty("消息提示")
     private String msg;
 
-    @ApiModelProperty("结果数据")
     private T data;
 
     private ResultSet()

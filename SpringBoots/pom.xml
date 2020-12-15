@@ -12,10 +12,11 @@
     <description>All demo project for Spring Boot</description>
     <modules>
         <module>analysis-file</module>
+        <module>ApiDoc</module>
+        <module>flowable</module>
+        <module>jenkins-docker</module>
         <module>SpringBootDemo</module>
         <module>TKmybatis</module>
-        <module>ApiDoc</module>
-        <module>jenkins-docker</module>
         <module>validation</module>
     </modules>
     <properties>
