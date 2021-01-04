@@ -16,7 +16,7 @@
         <package name="com.zsm.tk.pojo"/>
     </typeAliases>
     <plugins>
-        <plugin interceptor="com.jwwlcc.bigdata.mybatis.interceptor.CommonDataInterceptor">
+        <plugin interceptor="com.zsm.bigdata.mybatis.interceptor.CommonDataInterceptor">
             <property name="gmtCreate" value="gmt_create"/>
             <property name="gmtUpdate" value="gmt_modified"/>
             <property name="gmtModified" value="gmt_modified"/>

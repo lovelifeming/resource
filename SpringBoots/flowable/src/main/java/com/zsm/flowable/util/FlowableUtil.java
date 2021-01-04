@@ -160,7 +160,6 @@ public class FlowableUtil
         Task task = processEngine.getTaskService().createTaskQuery().processInstanceId(
             processInstanceId).singleResult();
         taskService.complete(task.getId(), map);
-
     }
 
     /**
@@ -171,7 +170,6 @@ public class FlowableUtil
      */
     public void backToStep(String currentTaskId, String targetTaskKey)
     {
-
         Task currentTask = taskService.createTaskQuery().taskId(currentTaskId).singleResult();
         if (currentTask == null)
         {
@@ -200,5 +198,4 @@ public class FlowableUtil
         }
         return null;
     }
-
 }

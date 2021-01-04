@@ -4,7 +4,7 @@
     <!-- 文件输出格式 -->
     <property name="PATTERN" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [%thread] %c [%L] -| %msg%n"/>
     <!--文件路径-->
-    <property name="log.path" value="./logs/spring"/>
+    <property name="log.path" value="./logs/"/>
     <!--输出到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -19,7 +19,7 @@
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--如果想把日志直接放到当前项目下，把${log.path}/去掉即可-->
-            <fileNamePattern>${user.dir}/${log.path}/logback.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${user.dir}/${log.path}/%d{yyyy-MM-dd}.log</fileNamePattern>
             <!--只保留最近30天的日志，以防止日志填满整个磁盘空间-->
             <maxHistory>30</maxHistory>
             <!--指定日志文件的上限大小-->

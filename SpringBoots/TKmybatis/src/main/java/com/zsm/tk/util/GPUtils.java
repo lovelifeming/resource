@@ -12,14 +12,15 @@ import java.util.*;
  */
 public class GPUtils
 {
-     //Greenplum
+    //Greenplum
     private static String greenplum_driver = "com.pivotal.jdbc.GreenplumDriver";
 
-    private static String greenplum_url = "jdbc:pivotal:greenplum://192.168.3.107:5432;DatabaseName=test-gpdb";
+    private static String greenplum_url = "jdbc:pivotal:greenplum://192.168.0.101:5432;DatabaseName=test-gpdb";
 
     private static String greenplum_user = "gpadmin";
 
     private static String greenplum_password = "gpadmin";
+
 
     //表信息
     static class TbInfo
@@ -63,6 +64,7 @@ public class GPUtils
             this.amt = amt;
         }
     }
+
 
     //表结构
     static class TbStructure
@@ -146,6 +148,7 @@ public class GPUtils
         }
     }
 
+
     //三大核心接口
     private static Connection conn = null;
 
@@ -158,7 +161,7 @@ public class GPUtils
         throws ClassNotFoundException, SQLException
     {
         // URL
-        String url = "jdbc:pivotal:greenplum://192.168.3.107:5432;DatabaseName=test-gpdb";
+        String url = "jdbc:pivotal:greenplum://192.168.3.101:5432;DatabaseName=test-gpdb";
         // 数据库用户名
         String username = "gpadmin";
         // 数据库密码
@@ -403,9 +406,9 @@ public class GPUtils
             }*/
             //dropTable("tb_tag_1_read");
             //createTable("foo","a int, b text","a");
-//            dropExternalTable("tb_tag_1_read");
-//            createExternalTable("tb_tag_1_read","id text,school_commun_flag text,wire_tv_flag text",
-//                    "gpfdist://mdw:8081/20190108.csv","CSV",";");
+            //dropExternalTable("tb_tag_1_read");
+            //createExternalTable("tb_tag_1_read", "id text,school_commun_flag text,wire_tv_flag text",
+            //    "gpfdist://mdw:8081/20190108.csv", "CSV", ";");
             //update("update tb_cp_02 set amt = ? where id = ?", new Object[] {"1000", "7"});
 
             //查询

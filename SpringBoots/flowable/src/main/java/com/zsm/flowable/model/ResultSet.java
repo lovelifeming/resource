@@ -1,5 +1,7 @@
-package com.zsm.flowable.util;
+package com.zsm.flowable.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -9,16 +11,21 @@ import java.io.Serializable;
  * 返回结果集
  */
 @Data
+@ApiModel("返回结果集")
 public class ResultSet<T> implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("响应成功标识，true表示成功，false表示失败")
     private boolean success;
 
+    @ApiModelProperty("响应状态标识，200表示成功，其他都是失败")
     private String statusCode;
 
+    @ApiModelProperty("响应消息")
     private String msg;
 
+    @ApiModelProperty("响应数据")
     private T data;
 
     private ResultSet()
@@ -46,7 +53,7 @@ public class ResultSet<T> implements Serializable
      */
     public static <T> ResultSet<T> fail(String msg)
     {
-        return ResultSet.fail("500", msg);
+        return ResultSet.fail("400", msg);
     }
 
     /**
