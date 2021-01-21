@@ -31,7 +31,7 @@ import java.util.Enumeration;
 @RequestMapping("/test/")
 @EnableAutoConfiguration
 @EnableConfigurationProperties({ConfigBean.class})
-@Api("SwaggerDemoController 相关API")
+@Api(description = "StudentController 相关API")
 public class StudentController
 {
     @Autowired

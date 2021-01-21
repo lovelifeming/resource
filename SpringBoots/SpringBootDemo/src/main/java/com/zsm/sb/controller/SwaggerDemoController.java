@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @EnableConfigurationProperties({ConfigBean.class})
-@Api("SwaggerDemoController 相关API")
+@Api(description = "SwaggerDemoController 相关API")
 public class SwaggerDemoController
 {
     private static final Logger logger = LoggerFactory.getLogger(SwaggerDemoController.class);

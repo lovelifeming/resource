@@ -39,7 +39,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/approve/")
-@Api("财物损失赔偿")
+@Api(description = "财物损失赔偿")
 public class ApproveProcessController
 {
     private static final String PROCESS_NAME = "approveProcess";
@@ -100,15 +100,15 @@ public class ApproveProcessController
     @ApiOperation("创建流程")
     @PostMapping("create")
     public ResultSet create(@RequestParam @ApiParam("当前业务流程key") String businessKey,
-                            @RequestParam @ApiParam("下一步执行用户Id") String nextUserId)
+                            @RequestParam @ApiParam("下一步执行用户Id") String userId)
     {
-        if (StringUtils.isBlank(businessKey) || StringUtils.isBlank(nextUserId))
+        if (StringUtils.isBlank(businessKey) || StringUtils.isBlank(userId))
         {
-            return ResultSet.fail("businessKey 或 nextUserId 参数为空");
+            return ResultSet.fail("businessKey 或 userId 参数为空");
         }
         HashMap<String, Object> processVariable = new HashMap<>();
-        processVariable.put("handler", nextUserId);
-        processVariable.put("userId", nextUserId);
+        processVariable.put("handler", userId);
+        processVariable.put("userId", userId);
         processVariable.put("businessKey", businessKey);
         ProcessInstance instance = service.startProcessInstanceByKey(PROCESS_NAME, businessKey, processVariable);
         Task task = service.getOneTaskByProcessId(instance.getId());
@@ -132,12 +132,12 @@ public class ApproveProcessController
         map.put("userId", successVO.getNextUserId());
         map.put("approve", "yes");
         map.put("due", "no");
-        if ("作业长".equals(task.getName()))
+        if ("财务总监".equals(task.getName()))
         {
             Object level = service.getProcessVariable(task.getProcessInstanceId(), "level");
             map.put("level", level);
         }
-        else if ("生技室安全员".equals(task.getName()))
+        else if ("会计审计".equals(task.getName()))
         {
             Object verify = service.getProcessVariable(task.getProcessInstanceId(), "verify");
             map.put("verify", verify);
@@ -155,7 +155,7 @@ public class ApproveProcessController
         return ResultSet.success(info);
     }
 
-    @ApiOperation("执行同意流程（作业区安全员）")
+    @ApiOperation("执行同意流程（部门经理）")
     @PostMapping("successLevel")
     public ResultSet successLevel(@RequestBody @Valid SuccessLevelVO levelVO, BindingResult results)
     {
@@ -179,7 +179,7 @@ public class ApproveProcessController
         log.info("successLevel成功执行流程，userId={},nextUserId={},level={},processId={},taskId={},businessKey={}",
             levelVO.getUserId(), levelVO.getNextUserId(), levelVO.getLevel(), instance.getId(), levelVO.getTaskId(),
             instance.getBusinessKey());
-        if (StringUtils.isNotBlank(levelVO.getVerify()))
+        if (StringUtils.isNotBlank(levelVO.getVerify()) && "yes".equals(levelVO.getVerify()))
         {
             service.setProcessVariable(instance.getId(), "verify", levelVO.getVerify());
         }
@@ -192,7 +192,7 @@ public class ApproveProcessController
         return ResultSet.success(info);
     }
 
-    @ApiOperation("执行同意流程（倒班作业长）")
+    @ApiOperation("执行同意流程（职员）")
     @PostMapping("successVerify")
     public ResultSet successVerify(@RequestBody @Valid SuccessVerifyVO levelVO, BindingResult results)
     {
@@ -287,7 +287,7 @@ public class ApproveProcessController
         return ResultSet.success(info);
     }
 
-    @ApiOperation("生技室安全员结束流程")
+    @ApiOperation("会计审计结束流程")
     @GetMapping("finishTask")
     public ResultSet finishTask(@RequestParam @ApiParam("任务流程Id") String taskId,
                                 @RequestParam(required = false) @ApiParam("用户Id") String userId)
@@ -393,7 +393,26 @@ public class ApproveProcessController
         if (StringUtils.isBlank(taskId))
             return ResultSet.fail("taskId 不能为空");
         HistoricTaskInstance ht = service.getHistoricTaskInstance(taskId);
+        if (ht == null)
+            return ResultSet.success(new ArrayList<TaskDetail>());
         List<HistoricTaskInstance> list = service.getHistoricTaskInstances(ht.getProcessInstanceId());
+        List<TaskDetail> res = buildTaskDetails(list);
+        return ResultSet.success(res);
+    }
+
+    @ApiOperation("查询流程(通过业务key)")
+    @GetMapping("getTaskDetailByBusinessKey")
+    public ResultSet getTaskDetailByBusinessKey(@RequestParam @ApiParam("业务key") String businessKey)
+    {
+        if (StringUtils.isBlank(businessKey))
+            return ResultSet.fail("businessKey 不能为空");
+        List<HistoricTaskInstance> list = service.getHistoricTaskInstancesByBusinessKey(businessKey);
+        List<TaskDetail> res = buildTaskDetails(list);
+        return ResultSet.success(res);
+    }
+
+    private List<TaskDetail> buildTaskDetails(List<HistoricTaskInstance> list)
+    {
         List<TaskDetail> res = new ArrayList<>();
         for (HistoricTaskInstance n : list)
         {
@@ -403,10 +422,25 @@ public class ApproveProcessController
             tmp.setStartTime(CommonUtil.convertDate(n.getStartTime()));
             tmp.setEndTime(CommonUtil.convertDate(n.getEndTime()));
             tmp.setTaskId(n.getId());
-            tmp.setProcessId(ht.getProcessInstanceId());
+            tmp.setProcessId(n.getProcessInstanceId());
             res.add(tmp);
         }
-        return ResultSet.success(res);
+        return res;
+    }
+
+    @ApiOperation("查询流程")
+    @GetMapping("getProcessDetail")
+    public ResultSet getProcessDetail(@RequestParam(required = false) @ApiParam("流程名称") String processName,
+                                      @RequestParam(required = false) @ApiParam("流程id") String processId,
+                                      @RequestParam(required = false) @ApiParam("开始时间") String startTime,
+                                      @RequestParam(required = false) @ApiParam("结束时间") String endTime,
+                                      @RequestParam(required = false) @ApiParam("当前处理人") String assignee,
+                                      @RequestParam(required = false) @ApiParam("状态：1是未完成，2是已完成") String rev,
+                                      @RequestParam @ApiParam("页数") Integer pageNum,
+                                      @RequestParam @ApiParam("每页记录条数") Integer pageSize)
+    {
+        return service.queryManageInfo(processName, processId, startTime, endTime, assignee, rev, pageNum,
+            pageSize);
     }
 
     @ApiOperation("回退流程")

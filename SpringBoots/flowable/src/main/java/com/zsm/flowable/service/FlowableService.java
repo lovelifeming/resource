@@ -1,5 +1,10 @@
 package com.zsm.flowable.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.zsm.flowable.mapper.MyselfQuery;
+import com.zsm.flowable.model.ManageInfo;
+import com.zsm.flowable.model.ResultSet;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.engine.*;
 import org.flowable.engine.history.HistoricProcessInstance;
@@ -53,6 +58,12 @@ public class FlowableService
      */
     @Autowired
     private HistoryService historyService;
+
+    /**
+     * 自定义查询
+     */
+    @Autowired
+    private MyselfQuery query;
 
     /**
      * 启动流程
@@ -422,6 +433,19 @@ public class FlowableService
     }
 
     /**
+     * 获取历史任务实例(通过businessKey)
+     *
+     * @param businessKey
+     * @return
+     */
+    public List<HistoricTaskInstance> getHistoricTaskInstancesByBusinessKey(String businessKey)
+    {
+        List<HistoricTaskInstance> list = historyService.createHistoricTaskInstanceQuery()
+            .processInstanceBusinessKey(businessKey).orderByTaskCreateTime().asc().list();
+        return list;
+    }
+
+    /**
      * 获取历史任务实例(根据节点名称)
      *
      * @param processId
@@ -447,4 +471,20 @@ public class FlowableService
             userId).finished().orderByTaskCreateTime().desc().list();
         return list;
     }
+
+    //region 自定义接口
+
+    /**
+     * 自定义查询流程信息
+     */
+    public ResultSet queryManageInfo(String processName, String processId, String startTime,
+                                     String endTime, String assignee, String rev, Integer pageNum, Integer pageSize)
+    {
+        PageHelper.startPage(pageNum, pageSize);
+        List<ManageInfo> list = query.queryManageInfo(processName, processId, startTime, endTime,
+            assignee, rev);
+        PageInfo<ManageInfo> res = new PageInfo<>(list);
+        return ResultSet.success(res);
+    }
+    //endregion
 }

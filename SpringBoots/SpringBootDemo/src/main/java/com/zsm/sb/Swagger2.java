@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * swagger2的配置文件，建在项目的启动类的同级目录下,访问路径：http://localhost:8080/swagger-ui.html
  *
- * @Api：修饰整个类，描述Controller的作用
+ * @Api：修饰整个类，描述Controller的作用。tags={"不能用中文，否则点击接口不展开"}，一般用 description="描述"。
  * @ApiOperation：描述一个类的一个方法，或者说一个接口
  * @ApiParam：单个参数描述。如果是 POST 的集合对象，需要添加 @RequestBody注解
  * @ApiModel：用对象来接收参数

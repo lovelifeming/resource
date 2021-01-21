@@ -152,13 +152,6 @@
             <version>2.6.1</version>
             <scope>test</scope>
         </dependency>
-
-        <!--引入pageHelper分页插件 -->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.2.13</version>
-        </dependency>
         <dependency>
             <groupId>com.github.jsqlparser</groupId>
             <artifactId>jsqlparser</artifactId>

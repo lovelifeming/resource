@@ -23,7 +23,7 @@ public class TaskDetail
     @ApiModelProperty("业务key")
     private String businessKey;
 
-    @ApiModelProperty("授权处理人id")
+    @ApiModelProperty("处理人id")
     private String userId;
 
     @ApiModelProperty("任务节点名称")
