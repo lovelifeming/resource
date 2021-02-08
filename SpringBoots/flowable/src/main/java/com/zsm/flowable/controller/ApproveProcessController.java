@@ -462,12 +462,12 @@ public class ApproveProcessController
 
     @ApiOperation("获取流程图")
     @GetMapping("getProcessDiagram")
-    public void createProcessDiagram(HttpServletResponse response, @RequestParam @ApiParam("任务流程Id") String taskId)
+    public void createProcessDiagram(HttpServletResponse response, @RequestParam @ApiParam("流程Id") String processId)
         throws IOException
     {
-        if (StringUtils.isBlank(taskId))
-            response.getWriter().write("taskId 不能为空");
-        ProcessInstance pi = service.getProcessByProcessId(taskId);
+        if (StringUtils.isBlank(processId))
+            response.getWriter().write("processId 不能为空");
+        ProcessInstance pi = service.getProcessByProcessId(processId);
         //流程走完的不显示图
         if (pi == null)
         {
@@ -495,6 +495,8 @@ public class ApproveProcessController
         InputStream in = diagramGenerator.generateDiagram(bpmnModel, "png", activityIds, flows,
             engconf.getActivityFontName(), engconf.getLabelFontName(), engconf.getAnnotationFontName(),
             engconf.getClassLoader(), 1.0);
+        // 自定义画图类
+        //InputStream in = new MyProcessDiagramGenerator().generateDiagram(bpmnModel, "png", activityIds, flows);
         OutputStream out = null;
         byte[] buf = new byte[1024];
         int legth = 0;

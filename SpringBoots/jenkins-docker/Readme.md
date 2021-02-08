@@ -109,7 +109,7 @@ Jenkinsfile内容
 
 pipeline {
     parameters {
-        booleanParam(name:'UPDATE_FORMUL', defaultValue:false,description:'默认false：不更新正式服; true：更新正式服')
+        booleanParam(name:'UPDATE_FORMAL', defaultValue:false,description:'默认false：不更新正式服; true：更新正式服')
         booleanParam(name:'NOT_SKIP_BUILD', defaultValue:true, description:'默认true：构建新的镜像;false：跳过镜像构建')
     }
     environment {
@@ -161,7 +161,7 @@ pipeline {
         }
         stage('Pull_Formal') {
             when {
-                expression { return params.UPDATE_FORMUL }
+                expression { return params.UPDATE_FORMAL }
             }
             steps {
                 echo '开始更新正式服...'

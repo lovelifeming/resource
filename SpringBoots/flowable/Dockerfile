@@ -10,3 +10,20 @@ COPY ${DEPENDENCY}/BOOT-INF/classes /app
 ENV PARAMS=""
 ## 容器启动时执行的命令
 ENTRYPOINT ["sh","-c","java -cp app:app/lib/* $PARAMS com.zsm.flowable.FlowableApplication"]
+
+## 打包jar包镜像
+#FROM java:8
+##指定作者信息
+#MAINTAINER test
+##数据卷信息
+#VOLUME /tmp
+#
+#COPY ./target/*.jar app.jar
+##启动jar
+#RUN sh -c 'touch app.jar'
+#ENV JAVA_OPTS=""
+#ENV LANG C.UTF-8
+##暴露容器端口
+#EXPOSE 8080
+##ENTRYPOINT 为容器启动后执行的命令
+#ENTRYPOINT ["java","-jar","app.jar"]

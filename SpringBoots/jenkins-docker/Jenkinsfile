@@ -2,7 +2,7 @@ pipeline {
     parameters {
            booleanParam(name:'NOT_SKIP_BUILD', defaultValue:true, description:'默认true：构建新的镜像;false：跳过镜像构建')
            booleanParam(name:'UPDATE_TEST', defaultValue:true,description:'默认true：默认更新测试服; false：不更新测试服')
-           booleanParam(name:'UPDATE_FORMUL', defaultValue:false,description:'默认false：默认不更新正式服; true：更新测试服')
+           booleanParam(name:'UPDATE_FORMAL', defaultValue:false,description:'默认false：默认不更新正式服; true：更新测试服')
        }
       environment {
             BITBUCKET_COMMON_CREDS = credentials('docker-registry-up')
@@ -46,7 +46,7 @@ pipeline {
         }
        stage('Update_Formal') {
                  when {
-                     expression { return params.UPDATE_FORMUL }
+                     expression { return params.UPDATE_FORMAL }
                  }
                  steps {
                      echo '开始更新正式服...'
