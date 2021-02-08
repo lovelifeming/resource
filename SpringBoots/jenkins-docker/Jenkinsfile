@@ -50,7 +50,7 @@ pipeline {
                  }
                  steps {
                      echo '开始更新正式服...'
-                     sh 'ssh root@bigdata02 "/opt/server/zsm/jenkins-remote-shell/jenkins-docker.sh"'
+                     sh 'ssh root@bigdata03 "/opt/server/zsm/jenkins-remote-shell/jenkins-docker.sh"'
                      echo '正式服更新完成!'
                  }
              }
@@ -61,7 +61,7 @@ pipeline {
                  steps {
                      echo '默认只更新测试服'
                      echo '开始更新测试服...'
-                     sh 'ssh root@slave02 "/opt/server/zsm/jenkins-remote-shell/jenkins-docker.sh"'
+                     sh 'ssh root@bigdata02 "/opt/server/zsm/jenkins-remote-shell/jenkins-docker.sh"'
                      echo '测试服更新完成!'
                  }
              }

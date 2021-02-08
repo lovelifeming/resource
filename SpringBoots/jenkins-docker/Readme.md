@@ -11,7 +11,7 @@ jenkinsci/blueocean	1.9.0	jenkins的blueocean工具
 maven	3-alpine	maven
 gitlab	10.2.3	gitlab
 自动化构建服务器
-bigdata01,bigdat02,bigdata03三台服务器，bigdata01是数据库，bigdata02是正式环境，bigdata03是测试环境
+bigdata01,bigdata02,bigdata03三台服务器，bigdata01是数据库，bigdata02是测试环境，bigdata03是正式环境
 
 springboot配置文件
 我们公司包括测试服和正式服两套服务，所以需要添加两套配置文本
@@ -155,7 +155,7 @@ pipeline {
         stage('Pull_Test') {
             steps {
                 echo '开始更新测试服...'
-                sh 'ssh root@bigdata03 "/opt/server/zsm-microservice/jenkins-remote-shell/zsm-profiles.sh"'
+                sh 'ssh root@bigdata02 "/opt/server/zsm-microservice/jenkins-remote-shell/zsm-profiles.sh"'
                 echo '测试服更新完成!'
             }
         }
@@ -165,7 +165,7 @@ pipeline {
             }
             steps {
                 echo '开始更新正式服...'
-                sh 'ssh root@bigdata02 "/opt/server/zsm-microservice/jenkins-remote-shell/zsm-profiles.sh"'
+                sh 'ssh root@bigdata03 "/opt/server/zsm-microservice/jenkins-remote-shell/zsm-profiles.sh"'
                 echo '正式服更新完成!'
             }
         }
