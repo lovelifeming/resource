@@ -33,4 +33,4 @@ ENTRYPOINT ["sh","-c","java -cp app:app/lib/* $PARAMS com.zsm.JDApplication"]
 ##暴露容器端口
 #EXPOSE 8080
 ##ENTRYPOINT 为容器启动后执行的命令
-#ENTRYPOINT ["java","-jar","app.jar"]
+#ENTRYPOINT ["java","-jar","-Xms512m","-Xmx2048m","-XX:PermSize=256m","-XX:MaxPermSize=512m","-XX:MaxNewSize=512m","app.jar"]

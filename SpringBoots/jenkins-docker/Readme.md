@@ -213,3 +213,20 @@ docker run -d -p 8100:8100 -v /etc/hosts:/etc/hosts -v /var/log/zsm/zsm-profiles
 不足
 目前使用的是手动构建方式进行任务的启动，后期优化成每一个项目都在git上有对应的生产分支，jenkins只需要webhook对应的生产分支就行。
 对于程序的版本和镜像打包的tag，必须保持一致才能有效，版本的迭代每次需要改动两个地方，有点麻烦。
+
+docker设置中文编码：
+    1.临时设置
+        docker运行时添加：-e LANG="C.UTF-8"
+    2.修改dockerFile
+        #在dockerFile文件中添加这一行即可
+        ENV LANG C.UTF-8
+    3.修改dockerFile
+        #在dockerFile文件中添加配置
+        RUN localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
+        #RUN export LANG=zh_CN.UTF-8
+        #RUN echo "export LANG=zh_CN.UTF-8" >> /etc/locale.conf
+        #ENV LANG zh_CN.UTF-8
+        ENV LC_ALL zh_CN.UTF-8
+    4.修改docker-compose配置
+        environment:
+              LANG: C.UTF-8
