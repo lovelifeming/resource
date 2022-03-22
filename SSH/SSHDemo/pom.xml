@@ -16,7 +16,7 @@
         <json-lib.version>2.4</json-lib.version>
         <commons-lang.version>2.5</commons-lang.version>
         <commons-collections.version>3.2.1</commons-collections.version>
-        <commons-beanutils.version>1.8.0</commons-beanutils.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-logging.version>1.2</commons-logging.version>
         <ezmorph.version>1.0.6</ezmorph.version>
     </properties>
