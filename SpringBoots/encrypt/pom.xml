@@ -28,7 +28,7 @@
         <lombok.version>1.18.6</lombok.version>
         <disruptor.version>3.3.4</disruptor.version>
         <hutool.version>4.5.9</hutool.version>
-        <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.28</mysql-connector-java.version>
     </properties>
 
     <dependencies>
